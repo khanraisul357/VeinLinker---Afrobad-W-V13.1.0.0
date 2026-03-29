@@ -1,0 +1,22 @@
+CREATE TABLE users (
+    internal_userID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    encrypted_userID CHAR(36) NOT NULL UNIQUE,
+    public_userID VARCHAR(15) NOT NULL UNIQUE,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    fathers_name VARCHAR(255) NOT NULL,
+    mothers_name VARCHAR(255) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    gender ENUM('male', 'female', 'other') NOT NULL,
+    height DECIMAL(5, 2) NOT NULL,
+    weight DECIMAL(5, 2) NOT NULL,
+    marital_status ENUM('single', 'married', 'divorced', 'widowed') NOT NULL,
+    blood_group ENUM('A', 'B', 'AB', 'O'),
+    rh_factor ENUM('+', '-'),
+    nid_image_url VARCHAR(255) NOT NULL,
+    profile_image_url VARCHAR(255) NOT NULL,
+    is_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
