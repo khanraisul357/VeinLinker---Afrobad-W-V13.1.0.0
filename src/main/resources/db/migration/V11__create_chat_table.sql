@@ -1,0 +1,18 @@
+CREATE TABLE Chat (
+    chat_ID INT PRIMARY KEY AUTO_INCREMENT,
+    acceptance_ID INT UNIQUE NOT NULL,
+    donor_ID BIGINT NOT NULL,
+    receiver_ID BIGINT NOT NULL,
+    status ENUM('Active', 'Archived') NOT NULL DEFAULT 'Active',
+    created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    archived_date TIMESTAMP NULL DEFAULT NULL,
+
+    FOREIGN KEY (acceptance_ID) REFERENCES RequestAcceptance(acceptance_ID)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+
+    FOREIGN KEY (donor_ID) REFERENCES Users(internal_userID)
+	ON DELETE CASCADE ON UPDATE CASCADE,
+
+    FOREIGN KEY (receiver_ID) REFERENCES Users(internal_userID)
+	ON DELETE CASCADE ON UPDATE CASCADE
+);

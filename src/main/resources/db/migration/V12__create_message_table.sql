@@ -1,0 +1,17 @@
+CREATE TABLE Message (
+    message_ID INT PRIMARY KEY AUTO_INCREMENT,
+    chat_ID INT NOT NULL,
+    sender_ID BIGINT NOT NULL,
+    message_text TEXT NOT NULL,
+    gps_location POINT SRID 4326 NOT NULL,
+    timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN NOT NULL DEFAULT FALSE,
+
+    FOREIGN KEY (chat_ID) REFERENCES Chat(chat_ID)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    FOREIGN KEY (sender_ID) REFERENCES Users(internal_userID)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    SPATIAL INDEX idx_message_gps (gps_location)
+);
