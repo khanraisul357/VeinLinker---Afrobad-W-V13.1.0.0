@@ -9,5 +9,5 @@ CREATE TABLE authverificationtoken (
     locked_until   DATETIME NULL,
     resend_count   INT NOT NULL DEFAULT 0,
     created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_avt_user FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_avt_user FOREIGN KEY (user_id) REFERENCES users(internal_userID)
 );
