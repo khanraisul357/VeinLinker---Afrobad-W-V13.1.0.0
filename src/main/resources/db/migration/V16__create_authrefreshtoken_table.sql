@@ -7,5 +7,5 @@ CREATE TABLE authrefreshtoken (
     expires_at   DATETIME NOT NULL,
     revoked      BOOLEAN NOT NULL DEFAULT FALSE,
     created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_art_user FOREIGN KEY (user_id) REFERENCES users(id)
+    CONSTRAINT fk_art_user FOREIGN KEY (user_id) REFERENCES users(internal_userID)
 );
