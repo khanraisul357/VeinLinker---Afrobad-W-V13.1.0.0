@@ -1,13 +1,20 @@
-CREATE TABLE authverificationtoken (
-    id             BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id        BIGINT NOT NULL,
-    token          VARCHAR(255) NOT NULL,
-    token_type     ENUM('OTP_PHONE', 'EMAIL_LINK') NOT NULL,
-    expires_at     DATETIME NOT NULL,
-    used           BOOLEAN NOT NULL DEFAULT FALSE,
-    attempt_count  INT NOT NULL DEFAULT 0,
-    locked_until   DATETIME NULL,
-    resend_count   INT NOT NULL DEFAULT 0,
-    created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_avt_user FOREIGN KEY (user_id) REFERENCES users(internal_userID)
-);
+CREATE TABLE auth_verification_sessions (
+    authverification_ID              BIGINT AUTO_INCREMENT PRIMARY KEY,
+    internal_userID        BIGINT NOT NULL,
+    -- OTP specific fields
+    otp_code        VARCHAR(10),
+    otp_expires_at  DATETIME NOT NULL,
+    otp_used        BOOLEAN NOT NULL DEFAULT FALSE,
+    otp_attempts    INT NOT NULL DEFAULT 0,
+    
+    -- Email specific fields
+    email_token     VARCHAR(255) NOT NULL,
+    email_expires_at DATETIME NOT NULL,
+    email_used      BOOLEAN NOT NULL DEFAULT FALSE,
+    
+    -- Shared state
+    is_verified     BOOLEAN AS (otp_used AND email_used) VIRTUAL, -- Automatically true when both are done
+    locked_until    DATETIME NULL,
+    created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (internal_userID) REFERENCES users(internal_userID)
