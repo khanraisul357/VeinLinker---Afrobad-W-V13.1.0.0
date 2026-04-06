@@ -1,4 +1,4 @@
-CREATE TABLE auth_verification_sessions (
+CREATE TABLE authverificationtoken (
     authverification_ID              BIGINT AUTO_INCREMENT PRIMARY KEY,
     internal_userID        BIGINT NOT NULL,
     -- OTP specific fields
