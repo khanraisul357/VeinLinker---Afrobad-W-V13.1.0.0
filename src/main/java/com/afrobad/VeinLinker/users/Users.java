@@ -9,10 +9,8 @@ import com.afrobad.VeinLinker.common_enums.RhFactor;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
@@ -21,6 +19,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name="users")
+@Getter // Generates all getters
+@Setter // Generates all setters
+@NoArgsConstructor // Required by JPA
+@AllArgsConstructor // Required by @Builder
+@Builder // Allows for Users.builder().fullName("...").build()
 public class Users{
 	
 	// -------------------------------------------------------------------------
@@ -249,93 +252,93 @@ public class Users{
     // bidirectional JPA relationships in future when you add @OneToMany fields.
     // =========================================================================
 
-    public Long getInternalUserId() { return internalUserId; }
-
-    public void setEncryptedUserId(String encryptedUserId) { this.encryptedUserId = encryptedUserId; }
-    public String getEncryptedUserId() { return encryptedUserId; }
-
-    public void setPublicUserId(String publicUserId) { this.publicUserId = publicUserId; }
-    public String getPublicUserId() { return publicUserId; }
-
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public String getFullName() { return fullName; }
-
-    public void setEmail(String email) { this.email = email; }
-    public String getEmail() { return email; }
-
-    public void setPhone(String phone) { this.phone = phone; }
-    public String getPhone() { return phone; }
-
-    public void setPassword(String password) { this.password = password; }
-    public String getPassword() { return password; }
-
-    public void setFathersName(String fathersName) { this.fathersName = fathersName; }
-    public String getFathersName() { return fathersName; }
-
-    public void setMothersName(String mothersName) { this.mothersName = mothersName; }
-    public String getMothersName() { return mothersName; }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-    public LocalDate getDateOfBirth() { return dateOfBirth; }
-
-    public void setGender(Gender gender) { this.gender = gender; }
-    public Gender getGender() { return gender; }
-
-    public void setHeight(BigDecimal height) { this.height = height; }
-    public BigDecimal getHeight() { return height; }
-
-    public void setWeight(BigDecimal weight) { this.weight = weight; }
-    public BigDecimal getWeight() { return weight; }
-
-    public void setMaritalStatus(MaritalStatus maritalStatus) { this.maritalStatus = maritalStatus; }
-    public MaritalStatus getMaritalStatus() { return maritalStatus; }
-
-    public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
-    public BloodGroup getBloodGroup() { return bloodGroup; }
-
-    public void setRhFactor(RhFactor rhFactor) { this.rhFactor = rhFactor; }
-    public RhFactor getRhFactor() { return rhFactor; }
-
-    public void setNidImageUrl(String nidImageUrl) { this.nidImageUrl = nidImageUrl; }
-    public String getNidImageUrl() { return nidImageUrl; }
-
-    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
-    public String getProfileImageUrl() { return profileImageUrl; }
-
-    public void setVerified(boolean verified) { isVerified = verified; }
-    public boolean isVerified() { return isVerified; }
-
-    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
-    public boolean isEmailVerified() { return emailVerified; }
-
-    public void setPhoneVerified(boolean phoneVerified) { this.phoneVerified = phoneVerified; }
-    public boolean isPhoneVerified() { return phoneVerified; }
-
-    public void setNidVerified(boolean nidVerified) { this.nidVerified = nidVerified; }
-    public boolean isNidVerified() { return nidVerified; }
-
-    public void setAccountStatus(AccountStatus accountStatus) { this.accountStatus = accountStatus; }
-    public AccountStatus getAccountStatus() { return accountStatus; }
-
-    public void setLastActiveMode(ActiveMode lastActiveMode) { this.lastActiveMode = lastActiveMode; }
-    public ActiveMode getLastActiveMode() { return lastActiveMode; }
-
-    public void setDonationCount(int donationCount) { this.donationCount = donationCount; }
-    public int getDonationCount() { return donationCount; }
-
-    public void setReceivingCount(int receivingCount) { this.receivingCount = receivingCount; }
-    public int getReceivingCount() { return receivingCount; }
-
-    public void setPoints(int points) { this.points = points; }
-    public int getPoints() { return points; }
-
-    public void setLevel(int level) { this.level = level; }
-    public int getLevel() { return level; }
-
-    public void setReliabilityScore(int reliabilityScore) { this.reliabilityScore = reliabilityScore; }
-    public int getReliabilityScore() { return reliabilityScore; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
+//    public Long getInternalUserId() { return internalUserId; }
+//
+//    public void setEncryptedUserId(String encryptedUserId) { this.encryptedUserId = encryptedUserId; }
+//    public String getEncryptedUserId() { return encryptedUserId; }
+//
+//    public void setPublicUserId(String publicUserId) { this.publicUserId = publicUserId; }
+//    public String getPublicUserId() { return publicUserId; }
+//
+//    public void setFullName(String fullName) { this.fullName = fullName; }
+//    public String getFullName() { return fullName; }
+//
+//    public void setEmail(String email) { this.email = email; }
+//    public String getEmail() { return email; }
+//
+//    public void setPhone(String phone) { this.phone = phone; }
+//    public String getPhone() { return phone; }
+//
+//    public void setPassword(String password) { this.password = password; }
+//    public String getPassword() { return password; }
+//
+//    public void setFathersName(String fathersName) { this.fathersName = fathersName; }
+//    public String getFathersName() { return fathersName; }
+//
+//    public void setMothersName(String mothersName) { this.mothersName = mothersName; }
+//    public String getMothersName() { return mothersName; }
+//
+//    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+//    public LocalDate getDateOfBirth() { return dateOfBirth; }
+//
+//    public void setGender(Gender gender) { this.gender = gender; }
+//    public Gender getGender() { return gender; }
+//
+//    public void setHeight(BigDecimal height) { this.height = height; }
+//    public BigDecimal getHeight() { return height; }
+//
+//    public void setWeight(BigDecimal weight) { this.weight = weight; }
+//    public BigDecimal getWeight() { return weight; }
+//
+//    public void setMaritalStatus(MaritalStatus maritalStatus) { this.maritalStatus = maritalStatus; }
+//    public MaritalStatus getMaritalStatus() { return maritalStatus; }
+//
+//    public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
+//    public BloodGroup getBloodGroup() { return bloodGroup; }
+//
+//    public void setRhFactor(RhFactor rhFactor) { this.rhFactor = rhFactor; }
+//    public RhFactor getRhFactor() { return rhFactor; }
+//
+//    public void setNidImageUrl(String nidImageUrl) { this.nidImageUrl = nidImageUrl; }
+//    public String getNidImageUrl() { return nidImageUrl; }
+//
+//    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
+//    public String getProfileImageUrl() { return profileImageUrl; }
+//
+//    public void setVerified(boolean verified) { isVerified = verified; }
+//    public boolean isVerified() { return isVerified; }
+//
+//    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
+//    public boolean isEmailVerified() { return emailVerified; }
+//
+//    public void setPhoneVerified(boolean phoneVerified) { this.phoneVerified = phoneVerified; }
+//    public boolean isPhoneVerified() { return phoneVerified; }
+//
+//    public void setNidVerified(boolean nidVerified) { this.nidVerified = nidVerified; }
+//    public boolean isNidVerified() { return nidVerified; }
+//
+//    public void setAccountStatus(AccountStatus accountStatus) { this.accountStatus = accountStatus; }
+//    public AccountStatus getAccountStatus() { return accountStatus; }
+//
+//    public void setLastActiveMode(ActiveMode lastActiveMode) { this.lastActiveMode = lastActiveMode; }
+//    public ActiveMode getLastActiveMode() { return lastActiveMode; }
+//
+//    public void setDonationCount(int donationCount) { this.donationCount = donationCount; }
+//    public int getDonationCount() { return donationCount; }
+//
+//    public void setReceivingCount(int receivingCount) { this.receivingCount = receivingCount; }
+//    public int getReceivingCount() { return receivingCount; }
+//
+//    public void setPoints(int points) { this.points = points; }
+//    public int getPoints() { return points; }
+//
+//    public void setLevel(int level) { this.level = level; }
+//    public int getLevel() { return level; }
+//
+//    public void setReliabilityScore(int reliabilityScore) { this.reliabilityScore = reliabilityScore; }
+//    public int getReliabilityScore() { return reliabilityScore; }
+//
+//    public LocalDateTime getCreatedAt() { return createdAt; }
 	
 }
     
