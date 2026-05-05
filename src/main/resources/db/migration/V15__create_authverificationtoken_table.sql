@@ -18,3 +18,5 @@ CREATE TABLE authverificationtoken (
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (internal_userID) REFERENCES users(internal_userID)
+    
+ );   
