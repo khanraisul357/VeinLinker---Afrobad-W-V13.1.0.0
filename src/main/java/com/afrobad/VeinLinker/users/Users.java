@@ -11,6 +11,8 @@ import com.afrobad.VeinLinker.common_enums.RhFactor;
 import jakarta.persistence.*;
 import lombok.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
@@ -160,15 +162,19 @@ public class Users{
     // Displayed as the Verification Status Badge in FR-02 REQ-3.
     // -------------------------------------------------------------------------
     @Column(name = "is_verified", nullable = false)
+    @Builder.Default
     private boolean isVerified = false;
 
     @Column(name = "email_verified", nullable = false)
+    @Builder.Default
     private boolean emailVerified = false;
 
     @Column(name = "phone_verified", nullable = false)
+    @Builder.Default
     private boolean phoneVerified = false;
 
     @Column(name = "nid_verified", nullable = false)
+    @Builder.Default
     private boolean nidVerified = false;
 
     // -------------------------------------------------------------------------
@@ -185,6 +191,7 @@ public class Users{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status", nullable = false)
+    @Builder.Default
     private AccountStatus accountStatus = AccountStatus.PENDING;
 
     // -------------------------------------------------------------------------
@@ -209,18 +216,23 @@ public class Users{
     // All default to 0 — a brand-new user starts with nothing.
     // -------------------------------------------------------------------------
     @Column(name = "donation_count", nullable = false)
+    @Builder.Default
     private int donationCount = 0;
 
     @Column(name = "receiving_count", nullable = false)
+    @Builder.Default
     private int receivingCount = 0;
 
     @Column(name = "points", nullable = false)
+    @Builder.Default
     private int points = 0;
 
     @Column(name = "level", nullable = false)
+    @Builder.Default
     private int level = 0;
 
     @Column(name = "reliability_score", nullable = false)
+    @Builder.Default
     private int reliabilityScore = 100;
 
     // -------------------------------------------------------------------------
@@ -242,12 +254,10 @@ public class Users{
     // Without it, Hibernate will throw an InstantiationException at runtime.
     // =========================================================================
 
-    public Users() {
-    }
 
     // =========================================================================
     // GETTERS AND SETTERS
-    // Plain getters and setters — no @Data or Lombok used here deliberately,
+    // getters and setters — @Data or Lombok used here deliberately,
     // because Lombok's @EqualsAndHashCode can cause infinite loops with
     // bidirectional JPA relationships in future when you add @OneToMany fields.
     // =========================================================================
