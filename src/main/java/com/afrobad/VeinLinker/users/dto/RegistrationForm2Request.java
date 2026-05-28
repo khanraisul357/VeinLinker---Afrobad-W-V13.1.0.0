@@ -1,14 +1,23 @@
 package com.afrobad.VeinLinker.users.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.afrobad.VeinLinker.common.enums.BloodGroup;
 import com.afrobad.VeinLinker.common.enums.Gender;
 import com.afrobad.VeinLinker.common.enums.MaritalStatus;
+import com.afrobad.VeinLinker.common.enums.Religion;
 import com.afrobad.VeinLinker.common.enums.RhFactor;
 
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RegistrationForm2Request {
 
     // -------------------------------------------------------------------------
@@ -44,44 +53,18 @@ public class RegistrationForm2Request {
     @DecimalMax(value = "500.00", message = "Weight must not exceed 500 kg")
     private BigDecimal weight;
 
+    @NotNull(message = "Religion is required")
+    private Religion religion;
+    
     @NotNull(message = "Marital status is required")
     private MaritalStatus maritalStatus;
 
-    // bloodGroup and rhFactor are optional — nullable in DB
+    
+    @NotNull(message = "Blood Group is required")
     private BloodGroup bloodGroup;
+    
+    @NotNull(message = "Rh Factor is required")
     private RhFactor rhFactor;
 
-    // -------------------------------------------------------------------------
-    // Getters & Setters
-    // -------------------------------------------------------------------------
-
-    public String getRegistrationToken() { return registrationToken; }
-    public void setRegistrationToken(String t) { this.registrationToken = t; }
-
-    public String getFathersName() { return fathersName; }
-    public void setFathersName(String n) { this.fathersName = n; }
-
-    public String getMothersName() { return mothersName; }
-    public void setMothersName(String n) { this.mothersName = n; }
-
-    public LocalDate getDateOfBirth() { return dateOfBirth; }
-    public void setDateOfBirth(LocalDate d) { this.dateOfBirth = d; }
-
-    public Gender getGender() { return gender; }
-    public void setGender(Gender g) { this.gender = g; }
-
-    public BigDecimal getHeight() { return height; }
-    public void setHeight(BigDecimal h) { this.height = h; }
-
-    public BigDecimal getWeight() { return weight; }
-    public void setWeight(BigDecimal w) { this.weight = w; }
-
-    public MaritalStatus getMaritalStatus() { return maritalStatus; }
-    public void setMaritalStatus(MaritalStatus m) { this.maritalStatus = m; }
-
-    public BloodGroup getBloodGroup() { return bloodGroup; }
-    public void setBloodGroup(BloodGroup b) { this.bloodGroup = b; }
-
-    public RhFactor getRhFactor() { return rhFactor; }
-    public void setRhFactor(RhFactor r) { this.rhFactor = r; }
+   
 }
