@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.common_enums;
+package com.afrobad.VeinLinker.common.enums;
 
 public enum MaritalStatus {
     SINGLE, MARRIED, DIVORCED, WIDOWED

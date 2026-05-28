@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.common_enums;
+package com.afrobad.VeinLinker.common.enums;
 
 public enum Gender {
     MALE, FEMALE, OTHER
