@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.common.enums;
+package com.afrobad.VeinLinker.registrationandlogin.users.enums;
 
 public enum BloodGroup {
     A, B, AB, O
