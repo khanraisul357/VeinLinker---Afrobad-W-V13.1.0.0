@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.users.dto;
+package com.afrobad.VeinLinker.registrationandlogin.users.dto;
 
 public class RegistrationForm1Response {
     private boolean success;
