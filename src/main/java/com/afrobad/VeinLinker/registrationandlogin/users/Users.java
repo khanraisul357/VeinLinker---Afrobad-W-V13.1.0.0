@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.users;
+package com.afrobad.VeinLinker.registrationandlogin.users;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.afrobad.VeinLinker.common.enums.BloodGroup;
 import com.afrobad.VeinLinker.common.enums.Gender;
 import com.afrobad.VeinLinker.common.enums.MaritalStatus;
+import com.afrobad.VeinLinker.common.enums.UserStatus;
 import com.afrobad.VeinLinker.common.enums.Religion;
 import com.afrobad.VeinLinker.common.enums.RhFactor;
 
@@ -91,46 +92,30 @@ public class Users{
     @Column(name = "mothers_name", nullable = false)
     private String mothersName;
 
-    // LocalDate maps perfectly to MySQL DATE column (no time component needed).
     @Column(name = "date_of_birth", nullable = false)
     private LocalDate dob;
     
-
     @Transient
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     private int age;
     
- // The magic happens here: calculate age when requested
     public int getAge() {
         if (this.dob != null) {
             return Period.between(this.dob, LocalDate.now()).getYears();
         }
         return 0;
     }
-
-    // You don't strictly need a setAge() method anymore, 
-    // but you can leave an empty one or omit it if your JSON library allows.
+    
     public void setAge(int age) {
         this.age = age;
     }
     
-    
-    // -------------------------------------------------------------------------
-    // ENUM fields — @Enumerated(EnumType.STRING) tells Hibernate to store
-    // the enum NAME (e.g. "MALE") as a string in the DB, not the ordinal number.
-    // We use EnumType.STRING always — if you add values later, ordinal numbers
-    // shift and corrupt all existing data.
-    
- 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false,
             columnDefinition = "ENUM('MALE','FEMALE','OTHER')")
     private Gender gender;
 
-    // DECIMAL(5,2) in MySQL → BigDecimal in Java.
-    // Using BigDecimal (not double/float) because it is exact — critical for
-    // medical data like height and weight where precision matters.
     @Column(name = "height", nullable = false, precision = 5, scale = 2)
     private BigDecimal height;
 
@@ -147,11 +132,8 @@ public class Users{
             columnDefinition = "ENUM('SINGLE','MARRIED','DIVORCED','WIDOWED')")
     private MaritalStatus maritalStatus;
 
-    // blood_group and rh_factor have NO nullable = false because your SQL table
-    // has no NOT NULL constraint on them — they are nullable (user can fill later).
     @Enumerated(EnumType.STRING)
-    @Column(name = "blood_group",
-            columnDefinition = "ENUM('A','B','AB','O')")
+    @Column(name = "blood_group",columnDefinition = "ENUM('A','B','AB','O')")
     private BloodGroup bloodGroup;
 
     @Enumerated(EnumType.STRING)
@@ -160,49 +142,22 @@ public class Users{
     private RhFactor rhFactor;
 
    
-
-    // -------------------------------------------------------------------------
-    // is_verified — FR-01 REQ-5
-    // Maps to BOOLEAN NOT NULL DEFAULT FALSE.
-    // This becomes TRUE only when ALL three conditions below are true:
-    //   1. emailVerified = true  (user clicked email link)
-    //   2. phoneVerified = true  (user entered SMS OTP correctly)
-    //   3. nidVerified = true    (admin manually approved NID image)
-    // The Service layer checks all three flags and flips this field.
-    // Displayed as the Verification Status Badge in FR-02 REQ-3.
-    // -------------------------------------------------------------------------
-    @Column(name = "is_verified", nullable = false)
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "is_verified", nullable = false,
+            columnDefinition = "ENUM('FORM1_COMPLETED','FORM2_COMPLETED','FORM3_COMPLETED','PENDING','VERIFIED','REJECTED')")
     @Builder.Default
-    private boolean isVerified = false;
-
-    @Column(name = "email_verified", nullable = false)
-    @Builder.Default
-    private boolean emailVerified = false;
-
-    @Column(name = "phone_verified", nullable = false)
-    @Builder.Default
-    private boolean phoneVerified = false;
-
-    @Column(name = "nid_verified", nullable = false)
-    @Builder.Default
-    private boolean nidVerified = false;
-
-    // -------------------------------------------------------------------------
-    // accountStatus — tracks the user's lifecycle state.
-    // PENDING  → just registered, not yet fully verified.
-    // ACTIVE   → all verifications complete, can log in normally.
-    // SUSPENDED→ admin has suspended the account (shadow ban from FR-08 REQ-13).
-    // Add this column to your SQL table via Flyway migration.
-    // -------------------------------------------------------------------------
+    private UserStatus isVerified;
+    
     
     public enum AccountStatus {
-        PENDING, ACTIVE, SUSPENDED
+        ACTIVE, INACTIVE, SUSPENDED
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_status", nullable = false)
+    @Column(name = "account_status", nullable = false,columnDefinition = "ENUM('ACTIVE','INACTIVE', 'SUSPENDED')" )
     @Builder.Default
-    private AccountStatus accountStatus = AccountStatus.PENDING;
+    private AccountStatus accountStatus = AccountStatus.INACTIVE;
 
     // -------------------------------------------------------------------------
     // lastActiveMode — FR-02 REQ-5 (saves which dashboard loaded last).
@@ -258,3 +213,7 @@ public class Users{
     
 }
     
+
+
+
+
