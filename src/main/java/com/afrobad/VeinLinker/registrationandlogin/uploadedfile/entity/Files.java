@@ -1,10 +1,10 @@
-package com.afrobad.VeinLinker.uploadedfiles.entity;
+package com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-import com.afrobad.VeinLinker.users.Users;
+import com.afrobad.VeinLinker.registrationandlogin.users.Users;
 
 @Entity
 @Table(name = "files")
