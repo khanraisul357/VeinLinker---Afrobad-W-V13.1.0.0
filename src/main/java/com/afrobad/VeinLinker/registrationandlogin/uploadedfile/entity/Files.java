@@ -45,8 +45,10 @@ public class Files {
     @Column(nullable = false)
     private LocalDateTime uploadedAt;
 
- // One User has Many Files
+    //One User has Many Files
+    //Foreign Key --> Reference/points to internal_userID from users table
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploaded_by", referencedColumnName = "internal_userID", nullable = false)
-    private Users uploadedBy; // userId reference (no direct FK to User entity)
-}
+    private Users uploadedBy; 
+    
+}   
