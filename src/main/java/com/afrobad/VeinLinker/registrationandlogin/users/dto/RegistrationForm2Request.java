@@ -6,11 +6,11 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.afrobad.VeinLinker.common.enums.BloodGroup;
-import com.afrobad.VeinLinker.common.enums.Gender;
-import com.afrobad.VeinLinker.common.enums.MaritalStatus;
-import com.afrobad.VeinLinker.common.enums.Religion;
-import com.afrobad.VeinLinker.common.enums.RhFactor;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.BloodGroup;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.Gender;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.MaritalStatus;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.Religion;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.RhFactor;
 
 
 @Setter
