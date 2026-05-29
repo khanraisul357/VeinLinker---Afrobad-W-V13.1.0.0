@@ -1,5 +1,11 @@
-package com.afrobad.VeinLinker.auth;
+package com.afrobad.VeinLinker.registrationandlogin.userauthentication_userauthorization;
 
-public class AuthToken {
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="authverificationtoken")
+public class AuthVerificationToken {
+	
+	
 
 }
