@@ -1,5 +1,6 @@
-package com.afrobad.VeinLinker.registrationandlogin.userauthentication_userauthorization;
+package com.afrobad.VeinLinker.registrationandlogin.users.enums;
 
-public class Role {
+public enum Role {
 
+	USER,ADMIN
 }
