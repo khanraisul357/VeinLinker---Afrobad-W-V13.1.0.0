@@ -1,11 +1,15 @@
 package com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity;
 
 import jakarta.persistence.*;
+
+
 import lombok.*;
 import java.time.LocalDateTime;
 
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.*;
 import com.afrobad.VeinLinker.registrationandlogin.users.Users;
 
+import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "files")
 @Getter
@@ -29,17 +33,19 @@ public class Files {
     @Column(nullable = false)
     private String fileUrl; // accessible URL (if applicable)
 
-    @Column(nullable = false)
-    private String fileType; // IMAGE, PDF, etc.
+    @Enumerated(EnumType.STRING)
+    @Column(name="format",nullable = false,columnDefinition = "ENUM('jpg','jpeg','png','pdf')")
+    private Format fileFormat; // IMAGE, PDF, etc.
 
-    private String mimeType;
 
+    @Column(nullable=false)
     private Long size;
 
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime uploadedAt;
 
- // Replace the plain Long with this:
+ // One User has Many Files
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploaded_by", referencedColumnName = "internal_userID", nullable = false)
     private Users uploadedBy; // userId reference (no direct FK to User entity)
