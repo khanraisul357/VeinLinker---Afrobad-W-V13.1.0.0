@@ -1,23 +1,22 @@
 package com.afrobad.VeinLinker.users;
 
-//importing enums
-import com.afrobad.VeinLinker.common_enums.Gender;
-import com.afrobad.VeinLinker.common_enums.MaritalStatus;
-import com.afrobad.VeinLinker.common_enums.BloodGroup;
-import com.afrobad.VeinLinker.common_enums.RhFactor;
-
-
-
 import jakarta.persistence.*;
 import lombok.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.afrobad.VeinLinker.common.enums.BloodGroup;
+import com.afrobad.VeinLinker.common.enums.Gender;
+import com.afrobad.VeinLinker.common.enums.MaritalStatus;
+import com.afrobad.VeinLinker.common.enums.Religion;
+import com.afrobad.VeinLinker.common.enums.RhFactor;
+
 import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Entity
 @Table(name="users")
@@ -94,16 +93,36 @@ public class Users{
 
     // LocalDate maps perfectly to MySQL DATE column (no time component needed).
     @Column(name = "date_of_birth", nullable = false)
-    private LocalDate dateOfBirth;
+    private LocalDate dob;
     
 
+    @Transient
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    private int age;
+    
+ // The magic happens here: calculate age when requested
+    public int getAge() {
+        if (this.dob != null) {
+            return Period.between(this.dob, LocalDate.now()).getYears();
+        }
+        return 0;
+    }
+
+    // You don't strictly need a setAge() method anymore, 
+    // but you can leave an empty one or omit it if your JSON library allows.
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    
     // -------------------------------------------------------------------------
     // ENUM fields — @Enumerated(EnumType.STRING) tells Hibernate to store
     // the enum NAME (e.g. "MALE") as a string in the DB, not the ordinal number.
     // We use EnumType.STRING always — if you add values later, ordinal numbers
     // shift and corrupt all existing data.
     
-    
+ 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false,
             columnDefinition = "ENUM('MALE','FEMALE','OTHER')")
@@ -118,6 +137,11 @@ public class Users{
     @Column(name = "weight", nullable = false, precision = 5, scale = 2)
     private BigDecimal weight;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="religion", nullable = false,
+    		columnDefinition = "Enum('Christianity','Islam','Hinduism','Judaism','Budhism','Sikh','Other')")
+    private Religion religion;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "marital_status", nullable = false,
             columnDefinition = "ENUM('SINGLE','MARRIED','DIVORCED','WIDOWED')")
@@ -135,21 +159,7 @@ public class Users{
             columnDefinition = "ENUM('POSITIVE','NEGATIVE')")
     private RhFactor rhFactor;
 
-    // =========================================================================
-    // STEP 3 REGISTRATION FIELDS — FR-01 REQ-3
-    // Store the URL/path returned after uploading to your storage (local or S3).
-    // The actual file is NEVER stored in the database.
-    // =========================================================================
-
-    @Column(name = "nid_image_url", nullable = false)
-    private String nidImageUrl;
-
-    @Column(name = "profile_image_url", nullable = false)
-    private String profileImageUrl;
-
-    // =========================================================================
-    // SYSTEM-MANAGED FIELDS — set by the backend, never by the user directly.
-    // =========================================================================
+   
 
     // -------------------------------------------------------------------------
     // is_verified — FR-01 REQ-5
@@ -246,109 +256,5 @@ public class Users{
     private LocalDateTime createdAt;
 
     
-
-    // =========================================================================
-    // CONSTRUCTORS
-    // A no-arg constructor is REQUIRED by JPA — Hibernate uses it to
-    // reconstruct objects when it reads rows from the database.
-    // Without it, Hibernate will throw an InstantiationException at runtime.
-    // =========================================================================
-
-
-    // =========================================================================
-    // GETTERS AND SETTERS
-    // getters and setters — @Data or Lombok used here deliberately,
-    // because Lombok's @EqualsAndHashCode can cause infinite loops with
-    // bidirectional JPA relationships in future when you add @OneToMany fields.
-    // =========================================================================
-
-//    public Long getInternalUserId() { return internalUserId; }
-//
-//    public void setEncryptedUserId(String encryptedUserId) { this.encryptedUserId = encryptedUserId; }
-//    public String getEncryptedUserId() { return encryptedUserId; }
-//
-//    public void setPublicUserId(String publicUserId) { this.publicUserId = publicUserId; }
-//    public String getPublicUserId() { return publicUserId; }
-//
-//    public void setFullName(String fullName) { this.fullName = fullName; }
-//    public String getFullName() { return fullName; }
-//
-//    public void setEmail(String email) { this.email = email; }
-//    public String getEmail() { return email; }
-//
-//    public void setPhone(String phone) { this.phone = phone; }
-//    public String getPhone() { return phone; }
-//
-//    public void setPassword(String password) { this.password = password; }
-//    public String getPassword() { return password; }
-//
-//    public void setFathersName(String fathersName) { this.fathersName = fathersName; }
-//    public String getFathersName() { return fathersName; }
-//
-//    public void setMothersName(String mothersName) { this.mothersName = mothersName; }
-//    public String getMothersName() { return mothersName; }
-//
-//    public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-//    public LocalDate getDateOfBirth() { return dateOfBirth; }
-//
-//    public void setGender(Gender gender) { this.gender = gender; }
-//    public Gender getGender() { return gender; }
-//
-//    public void setHeight(BigDecimal height) { this.height = height; }
-//    public BigDecimal getHeight() { return height; }
-//
-//    public void setWeight(BigDecimal weight) { this.weight = weight; }
-//    public BigDecimal getWeight() { return weight; }
-//
-//    public void setMaritalStatus(MaritalStatus maritalStatus) { this.maritalStatus = maritalStatus; }
-//    public MaritalStatus getMaritalStatus() { return maritalStatus; }
-//
-//    public void setBloodGroup(BloodGroup bloodGroup) { this.bloodGroup = bloodGroup; }
-//    public BloodGroup getBloodGroup() { return bloodGroup; }
-//
-//    public void setRhFactor(RhFactor rhFactor) { this.rhFactor = rhFactor; }
-//    public RhFactor getRhFactor() { return rhFactor; }
-//
-//    public void setNidImageUrl(String nidImageUrl) { this.nidImageUrl = nidImageUrl; }
-//    public String getNidImageUrl() { return nidImageUrl; }
-//
-//    public void setProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
-//    public String getProfileImageUrl() { return profileImageUrl; }
-//
-//    public void setVerified(boolean verified) { isVerified = verified; }
-//    public boolean isVerified() { return isVerified; }
-//
-//    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
-//    public boolean isEmailVerified() { return emailVerified; }
-//
-//    public void setPhoneVerified(boolean phoneVerified) { this.phoneVerified = phoneVerified; }
-//    public boolean isPhoneVerified() { return phoneVerified; }
-//
-//    public void setNidVerified(boolean nidVerified) { this.nidVerified = nidVerified; }
-//    public boolean isNidVerified() { return nidVerified; }
-//
-//    public void setAccountStatus(AccountStatus accountStatus) { this.accountStatus = accountStatus; }
-//    public AccountStatus getAccountStatus() { return accountStatus; }
-//
-//    public void setLastActiveMode(ActiveMode lastActiveMode) { this.lastActiveMode = lastActiveMode; }
-//    public ActiveMode getLastActiveMode() { return lastActiveMode; }
-//
-//    public void setDonationCount(int donationCount) { this.donationCount = donationCount; }
-//    public int getDonationCount() { return donationCount; }
-//
-//    public void setReceivingCount(int receivingCount) { this.receivingCount = receivingCount; }
-//    public int getReceivingCount() { return receivingCount; }
-//
-//    public void setPoints(int points) { this.points = points; }
-//    public int getPoints() { return points; }
-//
-//    public void setLevel(int level) { this.level = level; }
-//    public int getLevel() { return level; }
-//
-//    public void setReliabilityScore(int reliabilityScore) { this.reliabilityScore = reliabilityScore; }
-//    public int getReliabilityScore() { return reliabilityScore; }
-//
-//    public LocalDateTime getCreatedAt() { return createdAt; }
-	
 }
     
