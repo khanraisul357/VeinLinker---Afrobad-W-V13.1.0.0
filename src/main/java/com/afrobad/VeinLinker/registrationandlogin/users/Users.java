@@ -6,12 +6,8 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.afrobad.VeinLinker.common.enums.BloodGroup;
-import com.afrobad.VeinLinker.common.enums.Gender;
-import com.afrobad.VeinLinker.common.enums.MaritalStatus;
-import com.afrobad.VeinLinker.common.enums.UserStatus;
-import com.afrobad.VeinLinker.common.enums.Religion;
-import com.afrobad.VeinLinker.common.enums.RhFactor;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.*;
+
 
 import org.hibernate.annotations.CreationTimestamp;
 import java.math.BigDecimal;
@@ -65,6 +61,10 @@ public class Users{
     // Captured in the first registration form page.
     // =========================================================================
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+    
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
