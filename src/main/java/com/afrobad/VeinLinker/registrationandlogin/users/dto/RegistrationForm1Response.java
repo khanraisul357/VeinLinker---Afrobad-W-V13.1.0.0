@@ -1,13 +1,17 @@
 package com.afrobad.VeinLinker.registrationandlogin.users.dto;
 
+import lombok.*;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegistrationForm1Response {
     private boolean success;
     private int step;
     private String registrationToken;
     private String message;
 
-    // Force everyone to use the static method by hiding the "new" keyword
-    private RegistrationForm1Response() {} 
 
     public static RegistrationForm1Response success(String token) {
         RegistrationForm1Response r = new RegistrationForm1Response();
@@ -19,10 +23,10 @@ public class RegistrationForm1Response {
     }
     
  
-	
-    // Getters
-    public boolean isSuccess() { return success; }
-    public String getMessage() { return message; }
-    public String getRegistrationToken() { return registrationToken; }
-    public int getStep() { return step; }
 }
+
+////Getters
+//public boolean isSuccess() { return success; }
+//public String getMessage() { return message; }
+//public String getRegistrationToken() { return registrationToken; }
+//public int getStep() { return step; }
