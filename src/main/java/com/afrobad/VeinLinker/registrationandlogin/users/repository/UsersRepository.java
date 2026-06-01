@@ -1,10 +1,15 @@
-package com.afrobad.VeinLinker.users;
+//This repository will be resoponsible for save,create,read,update, delete user data in DB
+
+
+package com.afrobad.VeinLinker.registrationandlogin.users.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.afrobad.VeinLinker.registrationandlogin.users.Users;
 
 import java.util.Optional;
 
@@ -17,11 +22,16 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     //	SELECT * FROM users WHERE phone = ? LIMIT 1
 	boolean existsByPhone(String phone);
 	
-    //Used during multi forms & Login — Spring Security loads user by email
+	
+	// For standard Email Login
     Optional<Users> findByEmail(String email);
+
+    // For Phone Number Login (if supported)
+    Optional<Users> findByPhone(String phone);
+
+    // For Flexible Login (Allows user to type either their email OR phone number)
+    Optional<Users> findByEmailOrPhone(String email, String phone);
     
-    //After Registration - to find verified users
-    Optional<Users> findByVerifiedTrue(Users user);
     
     
  
