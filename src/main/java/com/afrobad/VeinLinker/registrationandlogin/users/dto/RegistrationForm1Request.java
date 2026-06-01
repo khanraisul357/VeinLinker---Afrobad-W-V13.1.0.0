@@ -5,11 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 
 @Setter
 @Getter
@@ -43,6 +40,10 @@ public class RegistrationForm1Request {
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters")
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&^#()_+\\-=\\[\\]{};':\"\\\\|,.<>/?]).+$",
+            message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+        )
     private String password;
 
     // confirmPassword is validated in the Service layer (password == confirmPassword)
@@ -53,24 +54,3 @@ public class RegistrationForm1Request {
 
 }
 
-// -------------------------------------------------------------------------
-// Manual Getters & Setters
-// (Avoid @Data on DTOs to prevent Lombok @EqualsAndHashCode issues later)
-// -------------------------------------------------------------------------
-
-//public String getFullName() { return fullName; }
-//public void setFullName(String fullName) { this.fullName = fullName; }
-//
-//public String getEmail() { return email; }
-//public void setEmail(String email) { this.email = email; }
-//
-//public String getPhone() { return phone; }
-//public void setPhone(String phone) { this.phone = phone; }
-//
-//public String getPassword() { return password; }
-//public void setPassword(String password) { this.password = password; }
-//
-//public String getConfirmPassword() { return confirmPassword; }
-//public void setConfirmPassword(String confirmPassword) {
-//    this.confirmPassword = confirmPassword;
-//}
