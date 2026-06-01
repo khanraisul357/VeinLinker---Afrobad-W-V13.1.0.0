@@ -1,6 +1,8 @@
 package com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity;
 
 import com.afrobad.VeinLinker.registrationandlogin.users.Users;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.entity.UserDocumentVerification;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.*;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,39 +19,35 @@ public class UserFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userfile_ID")
-    private Long ID;
+    private Long userFileId;
 
     
     // Foreign Key --> Reference to internal_userID from Users table
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID", referencedColumnName = "internal_userID", nullable = false)
-    private Users userId;
+    @JoinColumn(name = "user_ID", referencedColumnName = "internal_userID", nullable = false)
+    private Users user;
 
+    //One UserFile records belong to one file
     //Foreign Key --> Reference to file_ID from files table
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userfileID", referencedColumnName = "file_ID", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_ID", referencedColumnName = "file_ID", nullable = false)
     private Files file;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "document_verification_id", nullable = true) // Adjust column name and nullability as per your DB design
+    private UserDocumentVerification documentVerification;
+    
     // Meaning of this file in system
     @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false)
-    private DocumentType documentType;
+    @Column(name = "document_type", nullable = false, 
+            columnDefinition= "ENUM('PROFILE_IMAGE','NID_FRONT','NID_BACK','PASSPORT_FRONT','PASSPORT_BACK')")
+    private FileType documentType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false,
+            columnDefinition="ENUM('UPLOADED','NOT_UPLOADED','NOT_SUPPORTED')")
     @Builder.Default
-    private FileStatus status = FileStatus.UPLOADED;
+    private UploadStatus status = UploadStatus.NOT_UPLOADED;
 
-    public enum DocumentType {
-        PROFILE_IMAGE,
-        NID_FRONT,
-        NID_BACK,
-        PASSPORT
-    }
 
-    public enum FileStatus {
-        UPLOADED,
-        VERIFIED,
-        REJECTED
-    }
 }
