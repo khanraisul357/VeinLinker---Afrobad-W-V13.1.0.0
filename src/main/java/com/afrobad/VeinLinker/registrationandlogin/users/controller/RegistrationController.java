@@ -25,7 +25,7 @@ public class RegistrationController {
 	@PostMapping("register/form-1")
 	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){
 		
-		multiStepServices.form1(request);
+		multiStepServices.processForm1(request);
 		
 		RegistrationForm1Response response=new RegistrationForm1Response();
 		
