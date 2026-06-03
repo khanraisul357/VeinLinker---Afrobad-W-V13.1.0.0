@@ -15,21 +15,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>VeinLinker</name>
 	<description>VeinLinker is a technology-driven web and app-based platform that connects voluntary blood donors with patients in urgent need through fast, reliable, and location-aware matching. Unlike traditional donor directories or social media searches, it focuses on real-time donor availability to reduce critical delays. Donors register with essential personal, medical, and donation history details, while receivers can instantly find eligible donors nearby. The system enables direct communication via calls, WhatsApp, and email for rapid coordination. It also tracks donation history to ensure safety and eligibility. Built on a scalable Java-based architecture, VeinLinker ensures high performance, data integrity, and future expansion to a full web and mobile ecosystem.</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	
+	
+	
 	<properties>
-		<java.version>24</java.version>
+		<java.version>21</java.version>
 	</properties>
 	
 	<dependencies>
@@ -110,24 +100,18 @@
         </dependency>
 
 
+        <!--Mapstruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
 		
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -142,13 +126,46 @@
 			</plugin>
 			
 			
+			
 			<plugin>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+             
+
+                 <annotationProcessorPaths>
+
+                      <!-- MapStruct -->
+                      <path>
+                          <groupId>org.mapstruct</groupId>
+                          <artifactId>mapstruct-processor</artifactId>
+                          <version>1.6.3</version>
+                      </path>
+
+                      <!-- Lombok -->
+                      <path>
+                          <groupId>org.projectlombok</groupId>
+                          <artifactId>lombok</artifactId>
+                          <version>1.18.38</version>
+                      </path>
+
+                      <!-- Lombok + MapStruct Integration -->
+                      <path>
+                          <groupId>org.projectlombok</groupId>
+                          <artifactId>lombok-mapstruct-binding</artifactId>
+                          <version>0.2.0</version>
+                      </path>
+
+                 </annotationProcessorPaths>
+                 
+             </configuration>
+          </plugin>
+			
 			
 			
 		</plugins>
 	</build>
 
 </project>
+
+
