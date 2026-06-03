@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.registrationandlogin.cache;
+package com.afrobad.VeinLinker.registrationandlogin.cache.drafts;
 
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.*;
 
