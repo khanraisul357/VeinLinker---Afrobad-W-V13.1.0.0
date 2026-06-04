@@ -2,48 +2,54 @@
 
 package com.afrobad.VeinLinker.registrationandlogin.cache.service;
 
-package com.afrobad.VeinLinker.registrationandlogin.cache.service;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Service
 public class RegistrationCacheService {
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+	//Injecting object of RedisTemplate 
+    @Autowired 
+    private RedisTemplate<String, RegistrationDraft> redisTemplate;
 
     // Use a unified namespace prefix to keep keys separated inside Redis
-    private static final String REDIS_PREFIX = "RegistrationDraftCache:";
-    private static final long CACHE_TIMEOUT_MINUTES = 1800000;
+    private static final String REDIS_PREFIX = "RegistrationDraftCache:"; //prefix of redis key, like "RegistrationDraftCache: 1"
+    private static final Duration CACHE_TIMEOUT_MINUTES = Duration.ofMinutes(30);;//30 Minutes
 
     /**
      * Saves or updates the registration draft in Redis using the email as the lookup key.
      */
     public void saveDraft(String email, RegistrationDraft draft) {
+    	
+    	//if email = "  User@Gmail.com " 
+        //email.toLowerCase().trim() → "user@gmail.com"
+    	//FInal Redis Key becomes → RegistrationDraftCache:user@gmail.com
         String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
         
-        // Stores the object as JSON and sets it to expire automatically in 60 minutes
-        redisTemplate.opsForValue().set(cacheKey, draft, CACHE_TIMEOUT_MINUTES, TimeUnit.MINUTES);
+        
+        redisTemplate.opsForValue().set(cacheKey, draft, CACHE_TIMEOUT_MINUTES);
     }
 
-    /**
-     * Retrieves the current registration progress from Redis.
-     */
-    public RegistrationDraft getDraft(String email) {
-        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
-        return (RegistrationDraft) redisTemplate.opsForValue().get(cacheKey);
-    }
-
-    /**
-     * Clears out the Redis cache once Form 3 is successfully saved to MySQL.
-     */
-    public void deleteDraft(String email) {
-        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
-        redisTemplate.delete(cacheKey);
-    }
+//    /**
+//     * Retrieves the current registration progress from Redis.
+//     */
+//    public RegistrationDraft getDraft(String email) {
+//        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
+//        return (RegistrationDraft) redisTemplate.opsForValue().get(cacheKey);
+//    }
+//
+//    /**
+//     * Clears out the Redis cache once Form 3 is successfully saved to MySQL.
+//     */
+//    public void deleteDraft(String email) {
+//        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
+//        redisTemplate.delete(cacheKey);
+//    }
 }
