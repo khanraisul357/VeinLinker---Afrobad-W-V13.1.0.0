@@ -31,5 +31,7 @@ public class RegistrationController {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);// 201 created(new source created)
 	}
+	
+	@GetMapping()
 
 }
