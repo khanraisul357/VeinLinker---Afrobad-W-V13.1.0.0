@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RegistrationForm1Response {
     private boolean success;
     private int step;
