@@ -22,16 +22,15 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService multiStepServices;
 	
-	@PostMapping("register/form-1")
+	@PostMapping("/register/form-1")
 	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){
+			
 		
-		multiStepServices.processForm1(request);
-		
-		RegistrationForm1Response response=new RegistrationForm1Response();
+		RegistrationForm1Response response=multiStepServices.processForm1(request);;
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);// 201 created(new source created)
 	}
 	
-	@GetMapping()
+	
 
 }
