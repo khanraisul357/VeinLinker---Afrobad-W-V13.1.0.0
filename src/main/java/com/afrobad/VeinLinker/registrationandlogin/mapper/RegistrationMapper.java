@@ -1,7 +1,6 @@
 package com.afrobad.VeinLinker.registrationandlogin.mapper;
 
 
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,9 +21,7 @@ Simply I am telling spring to manage lifecycle of object of this mapper.
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RegistrationMapper {
 
-	
-
-	
+	@Mapping(target = "documents", ignore = true)
     RegistrationDraft form1RequestDtoToDraft(RegistrationForm1Request request);
     
     //Form 2Updates the EXISTNG draft loaded from Redis. It does NOT touch Form 1 data.
