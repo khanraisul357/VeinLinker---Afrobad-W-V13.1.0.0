@@ -37,13 +37,13 @@ public class RegistrationCacheService {
         redisTemplate.opsForValue().set(cacheKey, draft, CACHE_TIMEOUT_MINUTES);
     }
 
-//    /**
-//     * Retrieves the current registration progress from Redis.
-//     */
-//    public RegistrationDraft getDraft(String email) {
-//        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
-//        return (RegistrationDraft) redisTemplate.opsForValue().get(cacheKey);
-//    }
+    /**
+     * Retrieves the current registration progress from Redis.
+     */
+    public RegistrationDraft getDraft(String email) {
+        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
+        return (RegistrationDraft) redisTemplate.opsForValue().get(cacheKey);
+    }
 //
 //    /**
 //     * Clears out the Redis cache once Form 3 is successfully saved to MySQL.
