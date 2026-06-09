@@ -147,7 +147,7 @@ public class Users{
     @Column(name = "is_verified", nullable = false,
             columnDefinition = "ENUM('FORM1_COMPLETED','FORM2_COMPLETED','FORM3_COMPLETED','PENDING','VERIFIED','REJECTED')")
     @Builder.Default
-    private UserStatus isVerified;
+    private UserStatus isVerified=UserStatus.PENDING;
     
     
     public enum AccountStatus {
