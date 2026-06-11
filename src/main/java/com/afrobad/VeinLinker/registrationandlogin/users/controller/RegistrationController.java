@@ -23,26 +23,25 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService multiStepServices;
 	
-//	@Autowired 
-//	private RegistrationDraft draft;
+	
+	private RegistrationDraft draft=new RegistrationDraft();
 	
 	@PostMapping("/register/form-1")
-	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){
-			
+	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){			
 		
 		RegistrationForm1Response response=multiStepServices.processForm1(request);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);// 201 created(new source created)
 	}
 	
-//	@PostMapping("/register/form-2")
-//	public ResponseEntity<RegistrationForm2Response> form2Request(@Valid @RequestBody RegistrationForm2Request request){
-//		
-//		
-//		RegistrationForm2Response response=multiStepServices.processForm2(draft.getEmail(),request);
-//		return ResponseEntity.status(HttpStatus.CREATED).body(response);// 201 created(new source created)
-//
-//	}
+	@PostMapping("/register/form-2")
+	public ResponseEntity<RegistrationForm2Response> form2Request(@Valid @RequestBody RegistrationForm2Request request){
+			
+		RegistrationForm2Response response=multiStepServices.processForm2(draft.getEmail(),request);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);// 201 created(new source created)
+
+	}
 	
 	
 
