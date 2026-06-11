@@ -52,6 +52,7 @@ public class RegistrationService {
     
 	
 	public RegistrationForm1Response processForm1(RegistrationForm1Request request) {
+		
 		//Run the business validations first(whether users email or phone number exists in DB)
         validateForm1(request);
         
@@ -84,22 +85,22 @@ public class RegistrationService {
         cacheService.saveDraft(request.getEmail(), draft);
 		
         
-
-        
-        // Step 5: Return step response
+        //Convert RegistrationDraft into RegistrationForm1Response & Return to controller
         return RegistrationForm1Response.builder()
                 .email(draft.getEmail())
                 .draftId(draft.getDraftId())
+                .success(true)
+                .message("Form 1 draft saved successfully.")
                 .currentStep(draft.getCurrentStep())
-                .message("Step 1 draft registered successfully.")
                 .build();
 		
 		
 	}
 	
-	public void processForm2(String email, RegistrationForm2Request request) {
+	
+	public RegistrationForm2Response processForm2(String email, RegistrationForm2Request request) {
 		
-	    // 1. Fetch the incomplete draft from Redis
+	    // 1. Fetch the incomplete draft from Redis through email as key.
 	    RegistrationDraft existingDraft = cacheService.getDraft(email);
 	    if (existingDraft == null) {
 	        throw new IllegalStateException("Registration session expired or not found.");
@@ -111,9 +112,49 @@ public class RegistrationService {
 
 	    // 3. Update the step counter metadata manually
 	    existingDraft.setCurrentStep(2);
+	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
 
 	    // 4. Save the updated combined draft back to Redis
 	    cacheService.saveDraft(email, existingDraft);
+	    
+	 
+	    //Convert RegistrationDraft into RegistrationForm1Response & Return to controller
+        return RegistrationForm2Response.builder()
+                .success(true)
+                .message("Form 2 draft saved successfully.")
+                .currentStep(existingDraft.getCurrentStep())
+                .build();
 	}
+	
+	
+//	public RegistrationForm2Response processForm3(String email, RegistrationForm2Request request) {
+//		
+//	    // 1. Fetch the incomplete draft from Redis through email as key.
+//	    RegistrationDraft existingDraft = cacheService.getDraft(email);
+//	    if (existingDraft == null) {
+//	        throw new IllegalStateException("Registration session expired or not found.");
+//	    }
+//
+//	    // 2. MapStruct updates ONLY the fields present in Form 2 Request.
+//	    // Your Form 1 data (email, phone, passwordHash) remains completely untouched and safe!
+//	    mapper.updateDraftWithForm2(request, existingDraft);
+//
+//	    // 3. Update the step counter metadata manually
+//	    existingDraft.setCurrentStep(2);
+//
+//	    // 4. Save the updated combined draft back to Redis
+//	    cacheService.saveDraft(email, existingDraft);
+//	    
+//	 
+//	    //Convert RegistrationDraft into RegistrationForm1Response & Return to controller
+//        return RegistrationForm2Response.builder()
+//                .success(true)
+//                .message("Form 2 draft saved successfully.")
+//                .currentStep(existingDraft.getCurrentStep())
+//                .build();
+//	}
+	
+	
+
 
 }
