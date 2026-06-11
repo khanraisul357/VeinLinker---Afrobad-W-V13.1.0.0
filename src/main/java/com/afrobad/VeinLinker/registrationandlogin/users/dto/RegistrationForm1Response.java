@@ -11,8 +11,9 @@ public class RegistrationForm1Response {
 
 	    private String email;
 	    private String draftId;
-	    private int currentStep;
+	    private boolean success;
 	    private String message;
+	    private int currentStep;
 	   
  
 }
