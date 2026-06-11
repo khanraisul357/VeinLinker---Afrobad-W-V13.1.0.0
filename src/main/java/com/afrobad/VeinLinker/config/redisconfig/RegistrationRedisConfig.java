@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.registrationandlogin.cache.config;
+package com.afrobad.VeinLinker.config.redisconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+
+
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /*I am telling Spring this class contains instructions for you.
  * what instructions?: which object to manage/ Bean Definitions that should be managed by Spring.
@@ -33,14 +38,28 @@ public class RegistrationRedisConfig {
 	        //telling RedisTemplate which redis server to connect.
 	        redisTemplate.setConnectionFactory(connectionFactory);
 
+	        
 	        //redis can only store data in Bytes Format.
 	        //Converting type of redis key(String) to Bytes
 	        //How?: String --> StringRedisSerializer --> Bytes --> stored in redis
 	        redisTemplate.setKeySerializer(new StringRedisSerializer());
 
-	        ////Converting type of redis value(Registration Draft/object type) of object type to Bytes
-	        /// How?: Registration Draft/object type --> JSON --> Bytes --> stored in redis
-	        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+	        
+
+	        // Create ObjectMapper with JavaTime support
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        objectMapper.registerModule(new JavaTimeModule());
+	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+	        // IMPORTANT: use custom mapper
+	        GenericJackson2JsonRedisSerializer serializer =
+	                new GenericJackson2JsonRedisSerializer(objectMapper);
+
+	        redisTemplate.setValueSerializer(serializer);
+	        redisTemplate.setHashValueSerializer(serializer);
+
+	        redisTemplate.afterPropertiesSet();
+	        
 
 	        return redisTemplate;
 	    }
