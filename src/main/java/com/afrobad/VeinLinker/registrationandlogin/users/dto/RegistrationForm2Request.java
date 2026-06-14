@@ -24,8 +24,8 @@ public class RegistrationForm2Request {
     // registrationToken links Step 2 back to the Step 1 data stored in memory.
     // Without this token, we can't find the temporary registration session.
     // -------------------------------------------------------------------------
-    @NotBlank(message = "Registration token is required")
-    private String registrationToken;
+	@NotBlank(message = "Email session identifier is required")
+    private String email;//email as token
 
     @NotBlank(message = "Father's name is required")
     private String fathersName;
@@ -36,7 +36,7 @@ public class RegistrationForm2Request {
     // @Past ensures the date of birth is always in the past (can't be born tomorrow)
     @NotNull(message = "Date of birth is required")
     @Past(message = "Date of birth must be in the past")
-    private LocalDate dateOfBirth;
+    private LocalDate dob;
 
     @NotNull(message = "Gender is required")
     private Gender gender;
