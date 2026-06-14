@@ -8,11 +8,13 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 
-
-import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
+
 
 /*I am telling Spring this class contains instructions for you.
  * what instructions?: which object to manage/ Bean Definitions that should be managed by Spring.
@@ -51,6 +53,18 @@ public class RegistrationRedisConfig {
 	        objectMapper.registerModule(new JavaTimeModule());
 	        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
+	        // -------------------------------------------------------------------------
+	        // CRITICAL FIX: Activate Polymorphic Type Handling
+	        // This forces Jackson to save the actual class type data inside the JSON string
+	        // so it won't deserialize back as a LinkedHashMap.
+	        // -------------------------------------------------------------------------
+	        BasicPolymorphicTypeValidator typeValidator= BasicPolymorphicTypeValidator.builder()
+	                .allowIfBaseType(Object.class)
+	                .build();
+	        
+	        objectMapper.activateDefaultTyping(typeValidator, ObjectMapper.DefaultTyping.EVERYTHING);
+	        // -------------------------------------------------------------------------
+	        
 	        // IMPORTANT: use custom mapper
 	        GenericJackson2JsonRedisSerializer serializer =
 	                new GenericJackson2JsonRedisSerializer(objectMapper);
