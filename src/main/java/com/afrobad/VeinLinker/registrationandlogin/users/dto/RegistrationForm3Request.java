@@ -1,16 +1,22 @@
 package com.afrobad.VeinLinker.registrationandlogin.users.dto;
 
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.VerificationDocumentType;
+
 import jakarta.validation.constraints.NotBlank;
 
-// Step 3 carries only the registrationToken.
-// The actual files (NID image + profile picture) come as
-// MultipartFile in the Controller method signature directly —
-// they can't be inside a JSON request body DTO.
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RegistrationForm3Request {
 
-    @NotBlank(message = "Registration token is required")
-    private String registrationToken;
+	@NotBlank(message= "Cannot be empty")
+    @NotNull(message = "Document type is required")
+    private VerificationDocumentType documentType;
 
-    public String getRegistrationToken() { return registrationToken; }
-    public void setRegistrationToken(String t) { this.registrationToken = t; }
 }
+
