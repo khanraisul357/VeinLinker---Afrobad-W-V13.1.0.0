@@ -124,7 +124,7 @@ public class Users{
 
     @Enumerated(EnumType.STRING)
     @Column(name="religion", nullable = false,
-    		columnDefinition = "Enum('Christianity','Islam','Hinduism','Judaism','Budhism','Sikh','Other')")
+    		columnDefinition = "Enum('CHRISTIAN','ISLAM','HINDU','JEW','BUDHISTS','SIKH','OTHER')")
     private Religion religion;
     
     @Enumerated(EnumType.STRING)
