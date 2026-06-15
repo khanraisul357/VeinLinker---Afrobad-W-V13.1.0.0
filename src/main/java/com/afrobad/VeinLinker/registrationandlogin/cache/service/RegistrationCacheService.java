@@ -30,7 +30,7 @@ public class RegistrationCacheService {
     	
     	//if email = "  User@Gmail.com " 
         //email.toLowerCase().trim() → "user@gmail.com"
-    	//FInal Redis Key becomes → RegistrationDraftCache:user@gmail.com
+    	//Final Redis Key becomes → RegistrationDraftCache:user@gmail.com
         String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
         
         
