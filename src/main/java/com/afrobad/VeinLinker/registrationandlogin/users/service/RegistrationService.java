@@ -16,7 +16,7 @@ import com.afrobad.VeinLinker.registrationandlogin.mapper.RegistrationMapper;
 import com.afrobad.VeinLinker.registrationandlogin.users.dto.*;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.Role;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
-
+import org.springframework.web.multipart.MultipartFile;
 @Service
 public class RegistrationService {
 	
@@ -98,10 +98,10 @@ public class RegistrationService {
 	}
 	
 	
-	public RegistrationForm2Response processForm2(String email, RegistrationForm2Request request) {
+	public RegistrationForm2Response processForm2(RegistrationForm2Request request) {
 		
 	    // 1. Fetch the incomplete draft from Redis through email as key.
-	    RegistrationDraft existingDraft = cacheService.getDraft(email);
+	    RegistrationDraft existingDraft = cacheService.getDraft(request.getEmail());
 	    if (existingDraft == null) {
 	        throw new IllegalStateException("Registration session expired or not found.");
 	    }
@@ -115,7 +115,7 @@ public class RegistrationService {
 	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
 
 	    // 4. Save the updated combined draft back to Redis
-	    cacheService.saveDraft(email, existingDraft);
+	    cacheService.saveDraft(request.getEmail(), existingDraft);
 	    
 	 
 	    //Convert RegistrationDraft into RegistrationForm1Response & Return to controller
@@ -127,32 +127,25 @@ public class RegistrationService {
 	}
 	
 	
-//	public RegistrationForm2Response processForm3(String email, RegistrationForm2Request request) {
-//		
-//	    // 1. Fetch the incomplete draft from Redis through email as key.
-//	    RegistrationDraft existingDraft = cacheService.getDraft(email);
-//	    if (existingDraft == null) {
-//	        throw new IllegalStateException("Registration session expired or not found.");
-//	    }
-//
-//	    // 2. MapStruct updates ONLY the fields present in Form 2 Request.
-//	    // Your Form 1 data (email, phone, passwordHash) remains completely untouched and safe!
-//	    mapper.updateDraftWithForm2(request, existingDraft);
-//
-//	    // 3. Update the step counter metadata manually
-//	    existingDraft.setCurrentStep(2);
-//
-//	    // 4. Save the updated combined draft back to Redis
-//	    cacheService.saveDraft(email, existingDraft);
-//	    
-//	 
-//	    //Convert RegistrationDraft into RegistrationForm1Response & Return to controller
-//        return RegistrationForm2Response.builder()
-//                .success(true)
-//                .message("Form 2 draft saved successfully.")
-//                .currentStep(existingDraft.getCurrentStep())
-//                .build();
-//	}
+	
+	public RegistrationForm3Response submitForm3(RegistrationForm3Request request, MultipartFile profileImage, MultipartFile nidFront, MultipartFile nidBack, MultipartFile passportFront, MultipartFile passportBack ) {
+		// 1. Fetch the incomplete draft from Redis through email as key.
+	    RegistrationDraft existingDraft = cacheService.getDraft(request.getEmail());
+	    if (existingDraft == null) {
+	        throw new IllegalStateException("Registration session expired or not found.");
+	    }
+	    
+	    //Mapping Form3Request DTO to RegistrationDraft
+	    mapper.updateDraftWithForm3(request,existingDraft);
+	    
+	    existingDraft.setCurrentStep(3);
+	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
+	    
+	    // 4. Save the updated combined draft back to Redis
+	    cacheService.saveDraft(request.getEmail(), existingDraft);
+		
+		return null;
+	}
 	
 	
 
