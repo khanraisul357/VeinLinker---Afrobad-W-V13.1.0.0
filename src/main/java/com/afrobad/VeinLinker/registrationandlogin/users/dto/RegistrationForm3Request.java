@@ -13,6 +13,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class RegistrationForm3Request {
+	
+	@NotBlank(message = "Email session identifier is required")
+    private String email;//email as token
 
 	@NotBlank(message= "Cannot be empty")
     @NotNull(message = "Document type is required")
