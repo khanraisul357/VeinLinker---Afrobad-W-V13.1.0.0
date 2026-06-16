@@ -45,38 +45,27 @@ public class RegistrationController {
 	
 
 	//I am telling spring, this method accepts/consumes http request/data which is in multi-part format instead of JSON
-	//Payload divided into multiple individual parts/sections & handled  by the controller method.
+	//why using multipart format?: Because incoming request contains both text & raw binary data & in JSON format we can only
+	//send text data
+	//Payload divided into multiple parts/sections & each part received by the controller method.
+	//Spring automatically converts multipart format to RegistrationForm3Request DTO
 	@PostMapping(value = "/register/form-3",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> form3Request(
+	public ResponseEntity<RegistrationDraft> form3Request(
 
-	        @RequestPart("request")
-	        RegistrationForm3Request request,
-
-	        @RequestPart("profileImage")
-	        MultipartFile profileImage,
-
-	        @RequestPart(value = "nidFront", required = false)
-	        MultipartFile nidFront,
-
-	        @RequestPart(value = "nidBack", required = false)
-	        MultipartFile nidBack,
-
-	        @RequestPart(value = "passportFront", required = false)
-	        MultipartFile passportFront,
-
-	        @RequestPart(value = "passportBack", required = false)
-	        MultipartFile passportBack
+			@Valid @ModelAttribute RegistrationForm3Request request, // Catches text fields
+            @RequestPart("frontImage") MultipartFile frontImage,     // Catches binary NID/Passport Front
+            @RequestPart("backImage") MultipartFile backImage,       // Catches binary NID/Passport Back
+            @RequestPart("profileImage") MultipartFile profileImage   // Catches binary Profile image
 	) {
 
-	    multiStepServices.submitForm3(
+	    RegistrationDraft draft=multiStepServices.submitForm3(
 	            request,
-	            profileImage,
-	            nidFront,
-	            nidBack,
-	            passportFront,
-	            passportBack);
+	            frontImage,
+	            backImage,
+	            profileImage
+	            );
 
-	    return ResponseEntity.ok().build();
+	    return ResponseEntity.status(HttpStatus.CREATED).body(draft);
 	}
 		
 	
