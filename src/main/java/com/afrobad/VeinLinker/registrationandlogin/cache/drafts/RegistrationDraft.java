@@ -6,6 +6,7 @@ package com.afrobad.VeinLinker.registrationandlogin.cache.drafts;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.afrobad.VeinLinker.registrationandlogin.cache.enums.*;
@@ -109,7 +110,9 @@ public class RegistrationDraft {
     /**
      * Uploaded documents associated with this draft.
      */
-    private List<UploadedDocumentDraft> documents;
+
+    @Builder.Default
+    private List<UploadedFileDraft> uploadedDocuments=new ArrayList<>();
 }
 
 
