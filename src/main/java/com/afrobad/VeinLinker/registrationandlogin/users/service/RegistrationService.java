@@ -3,19 +3,27 @@
 package com.afrobad.VeinLinker.registrationandlogin.users.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
+import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.UploadedFileDraft;
 import com.afrobad.VeinLinker.registrationandlogin.cache.enums.RegistrationStatus;
 import com.afrobad.VeinLinker.registrationandlogin.cache.service.RegistrationCacheService;
 import com.afrobad.VeinLinker.registrationandlogin.mapper.RegistrationMapper;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.FileType;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.Format;
 import com.afrobad.VeinLinker.registrationandlogin.users.dto.*;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.Role;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 @Service
 public class RegistrationService {
@@ -49,7 +57,22 @@ public class RegistrationService {
         
     }
     
-    
+    //Method to get format(jpg,jpeg,png,pdf) of the uploaded file
+    private Format getFormat(MultipartFile file) {
+
+        String originalName = file.getOriginalFilename();
+
+        if (originalName == null) {
+            throw new IllegalArgumentException("File name is missing.");
+        }
+
+        String extension =
+                originalName.substring(
+                        originalName.lastIndexOf('.') + 1
+                ).toUpperCase();
+
+        return Format.valueOf(extension);
+    }
 	
 	public RegistrationForm1Response processForm1(RegistrationForm1Request request) {
 		
@@ -100,21 +123,21 @@ public class RegistrationService {
 	
 	public RegistrationForm2Response processForm2(RegistrationForm2Request request) {
 		
-	    // 1. Fetch the incomplete draft from Redis through email as key.
+	    //Fetch the incomplete draft from Redis through email as key.
 	    RegistrationDraft existingDraft = cacheService.getDraft(request.getEmail());
 	    if (existingDraft == null) {
 	        throw new IllegalStateException("Registration session expired or not found.");
 	    }
 
-	    // 2. MapStruct updates ONLY the fields present in Form 2 Request.
-	    // Your Form 1 data (email, phone, passwordHash) remains completely untouched and safe!
+	    //MapStruct updates ONLY the fields present in Form 2 Request.
+	    //Your Form 1 data (email, phone, passwordHash) remains completely untouched and safe!
 	    mapper.updateDraftWithForm2(request, existingDraft);
 
-	    // 3. Update the step counter metadata manually
+	    //Update the step counter metadata manually
 	    existingDraft.setCurrentStep(2);
 	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
 
-	    // 4. Save the updated combined draft back to Redis
+	    //Save the updated combined draft back to Redis
 	    cacheService.saveDraft(request.getEmail(), existingDraft);
 	    
 	 
@@ -128,24 +151,45 @@ public class RegistrationService {
 	
 	
 	
-	public RegistrationForm3Response submitForm3(RegistrationForm3Request request, MultipartFile profileImage, MultipartFile nidFront, MultipartFile nidBack, MultipartFile passportFront, MultipartFile passportBack ) {
-		// 1. Fetch the incomplete draft from Redis through email as key.
+	public RegistrationDraft submitForm3(RegistrationForm3Request request, MultipartFile frontImage, MultipartFile backImage, MultipartFile profileImage ) {
+		
+		//Fetch the incomplete draft from Redis through email as key.
 	    RegistrationDraft existingDraft = cacheService.getDraft(request.getEmail());
 	    if (existingDraft == null) {
 	        throw new IllegalStateException("Registration session expired or not found.");
 	    }
 	    
-	    //Mapping Form3Request DTO to RegistrationDraft
-	    mapper.updateDraftWithForm3(request,existingDraft);
+	    //Mapping each file request(MultipartFIle) to UploadedFileDraft
+	    //Why?: I have to store each uploaded file as UploadedFileDraft object in a list, since list type is <UploadedFileDraft>
+	    UploadedFileDraft frontDraft= mapper.MultipartFileToUploadedDocumentDraft(frontImage,FileType.NID_FRONT,getFormat(frontImage));
+	    UploadedFileDraft backDraft= mapper.MultipartFileToUploadedDocumentDraft(backImage,FileType.NID_BACK,getFormat(backImage));
+	    UploadedFileDraft profileDraft= mapper.MultipartFileToUploadedDocumentDraft(profileImage,FileType.PROFILE_IMAGE,getFormat(profileImage));
 	    
+	    //UploadedFileDraft objects are added to the list
+	    existingDraft.getUploadedDocuments().add(frontDraft); 
+	    existingDraft.getUploadedDocuments().add(backDraft); 
+	    existingDraft.getUploadedDocuments().add(profileDraft);
+	    
+	    //Update the step counter metadata manually
 	    existingDraft.setCurrentStep(3);
 	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
 	    
-	    // 4. Save the updated combined draft back to Redis
+	    //Save the updated combined draft back to Redis
 	    cacheService.saveDraft(request.getEmail(), existingDraft);
 		
-		return null;
+	    return existingDraft;
+	    
 	}
+	
+//	public boolean submitRegistration(String email) {
+//		//Fetch the complete draft from Redis through email as key.
+//	    RegistrationDraft existingDraft = cacheService.getDraft(email);
+//	    if (existingDraft == null) {
+//	        throw new IllegalStateException("Registration session expired or not found.");
+//	    }
+//	    
+//	    return true;
+//	}
 	
 	
 
