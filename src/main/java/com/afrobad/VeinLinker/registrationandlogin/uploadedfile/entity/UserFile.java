@@ -45,9 +45,9 @@ public class UserFile {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false,
-            columnDefinition="ENUM('UPLOADED','NOT_UPLOADED','NOT_SUPPORTED')")
+            columnDefinition="ENUM('UPLOADED','PENDING','NOT_SUPPORTED')")
     @Builder.Default
-    private UploadStatus status = UploadStatus.NOT_UPLOADED;
+    private UploadStatus status = UploadStatus.PENDING;
 
 
 }
