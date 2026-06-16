@@ -2,7 +2,7 @@ package com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums;
 
 public enum UploadStatus {
         UPLOADED,
-        NOT_UPLOADED,
+        PENDING,
         NOT_SUPPORTED,
     
 }
