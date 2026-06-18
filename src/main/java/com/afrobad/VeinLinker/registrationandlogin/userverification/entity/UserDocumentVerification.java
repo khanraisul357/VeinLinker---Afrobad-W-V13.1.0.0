@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.*;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.UserFile;
-import com.afrobad.VeinLinker.registrationandlogin.users.Users;
+import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import jakarta.persistence.*;
 import lombok.*;
