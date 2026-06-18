@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.registrationandlogin.users;
+package com.afrobad.VeinLinker.registrationandlogin.users.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
