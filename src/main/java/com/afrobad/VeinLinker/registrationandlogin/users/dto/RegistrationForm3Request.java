@@ -19,7 +19,7 @@ public class RegistrationForm3Request {
     @Email(message = "Invalid email formatting")
     private String email;//email as token
 
-	@NotBlank(message= "Cannot be empty")
+	
     @NotNull(message = "Document type is required")
     private VerificationDocumentType documentType;
 
