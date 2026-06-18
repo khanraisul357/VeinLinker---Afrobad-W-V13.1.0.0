@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.*;
-import com.afrobad.VeinLinker.registrationandlogin.users.Users;
+import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import org.hibernate.annotations.CreationTimestamp;
 @Entity
