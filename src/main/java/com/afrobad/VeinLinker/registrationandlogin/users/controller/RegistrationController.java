@@ -67,6 +67,15 @@ public class RegistrationController {
 
 	    return ResponseEntity.status(HttpStatus.CREATED).body(draft);
 	}
+	
+	
+	@PostMapping("/register/submit")
+	public ResponseEntity<String> submitFormRequest(@RequestBody RegistrationFormSubmitRequest request){
+		
+		multiStepServices.submitRegistrationForm(request.getEmail());
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
+	}
 		
 	
 
