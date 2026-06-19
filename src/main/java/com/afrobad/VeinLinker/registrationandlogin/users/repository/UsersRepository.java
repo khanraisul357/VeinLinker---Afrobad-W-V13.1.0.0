@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.afrobad.VeinLinker.registrationandlogin.users.Users;
+import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import java.util.Optional;
 
