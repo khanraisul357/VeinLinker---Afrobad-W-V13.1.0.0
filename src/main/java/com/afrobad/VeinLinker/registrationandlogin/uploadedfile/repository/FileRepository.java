@@ -1,5 +1,9 @@
 package com.afrobad.VeinLinker.registrationandlogin.uploadedfile.repository;
 
-public class FileRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.Files;
+
+public interface FileRepository extends JpaRepository<Files, Long>  {
 
 }
