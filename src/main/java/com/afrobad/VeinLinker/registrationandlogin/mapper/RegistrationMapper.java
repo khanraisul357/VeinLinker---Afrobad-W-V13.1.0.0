@@ -3,6 +3,7 @@ package com.afrobad.VeinLinker.registrationandlogin.mapper;
 
 import java.util.UUID;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -11,9 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.UploadedFileDraft;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.Files;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.*;
 import com.afrobad.VeinLinker.registrationandlogin.users.dto.*;
-
+import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import lombok.*;
 
@@ -54,6 +56,22 @@ public interface RegistrationMapper {
                 .build();
     	
     }
+    
+    // ======================================================
+    // RegistrationDraft To Users
+    // ======================================================
+   
+    //Telling mapstruct not to map fields which are not same as source(RegistrationDraft) & ignore them
+  
+    @Mapping(source = "passwordHashFormat", target = "password")
+    Users draftToUsers(RegistrationDraft draft);
+    
+    // ======================================================
+    // RegistrationDraft To Files
+    // ======================================================
+    
+    //
+    Files draftToFiles(UploadedFileDraft fileDraft);
 
     
 }
