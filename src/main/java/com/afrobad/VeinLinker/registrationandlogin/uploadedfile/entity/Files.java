@@ -30,7 +30,7 @@ public class Files {
     @Column(nullable = false)
     private String originalFileName; // user uploaded name
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String fileUrl; // accessible URL (if applicable)
 
     @Enumerated(EnumType.STRING)
