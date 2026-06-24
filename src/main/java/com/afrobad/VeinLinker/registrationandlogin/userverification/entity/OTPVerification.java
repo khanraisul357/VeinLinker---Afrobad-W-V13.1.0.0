@@ -16,13 +16,13 @@ public class OTPVerification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "otp_id")
+    @Column(name = "otp_ID")
     private Long otpId;
 
     // Direct link to the User this OTP was generated for
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "internal_userID", nullable = false)
-    private Users user;
+    @JoinColumn(name = "user_ID", referencedColumnName = "internal_userID", nullable = false)
+    private Users userId;
 
     // The hashed or plain text OTP string (usually 6 digits)
     @Column(name = "otp_code", nullable = false, length = 6)
