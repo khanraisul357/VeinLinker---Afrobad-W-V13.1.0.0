@@ -69,7 +69,7 @@ public class RegistrationController {
 	}
 	
 	
-	@PostMapping("/register/submit")
+	@PostMapping("/registration/submit")
 	public ResponseEntity<String> submitFormRequest(@RequestBody RegistrationFormSubmitRequest request){
 		
 		multiStepServices.submitRegistrationForm(request.getEmail());
