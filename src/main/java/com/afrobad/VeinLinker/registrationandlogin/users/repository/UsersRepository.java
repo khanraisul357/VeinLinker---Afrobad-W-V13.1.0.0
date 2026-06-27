@@ -23,10 +23,10 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 	boolean existsByPhone(String phone);
 	
 	
-	// For standard Email Login
+	// For fetching Users by email
     Optional<Users> findByEmail(String email);
 
-    // For Phone Number Login (if supported)
+    // For fetching Users by phone number
     Optional<Users> findByPhone(String phone);
 
     // For Flexible Login (Allows user to type either their email OR phone number)
