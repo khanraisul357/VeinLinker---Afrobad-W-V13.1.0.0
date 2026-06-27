@@ -30,6 +30,7 @@ import com.afrobad.VeinLinker.registrationandlogin.users.enums.AccountStatus;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.Role;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.UserStatus;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.service.OTPVerificationService;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Validator;
@@ -62,6 +63,9 @@ public class RegistrationService {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Autowired
+	private OTPVerificationService otpVerificationService;
 	
 	// Isolated Business Validation Method
     private void validateForm1(RegistrationForm1Request request) {
@@ -324,8 +328,6 @@ public class RegistrationService {
         userFileRepository.saveAll(userFiles);
         
         //Delete draft from redis
-//        
-//        return user;
 	    
 	}
 	
