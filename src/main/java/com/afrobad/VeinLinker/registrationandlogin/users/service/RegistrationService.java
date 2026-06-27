@@ -232,7 +232,7 @@ public class RegistrationService {
 	}
 	
 	@Transactional
-	public Users submitRegistrationForm(String email) {
+	public void submitRegistrationForm(String email) {
 		
 		//Step-1:Fetch the complete draft from Redis through email as key.
 	    RegistrationDraft draft = cacheService.getDraft(email);
@@ -282,9 +282,15 @@ public class RegistrationService {
 	    // ======================================================
 	    // 5. Public ID generation (depends on DB-generated ID)
 	    // ======================================================
-	    user.setPublicUserId(generatePublicId(user.getInternalUserId()));
 	    
+	    // First save
 	    user = repository.save(user);
+
+	    // Now internalUserId exists
+	    user.setPublicUserId(generatePublicId(user.getInternalUserId()));
+
+	    // Second save updates only publicUserId
+	    repository.save(user);
 
 	    
 	    
@@ -318,8 +324,8 @@ public class RegistrationService {
         userFileRepository.saveAll(userFiles);
         
         //Delete draft from redis
-        
-        return user;
+//        
+//        return user;
 	    
 	}
 	
