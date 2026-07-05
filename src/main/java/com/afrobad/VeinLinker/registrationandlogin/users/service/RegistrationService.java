@@ -64,8 +64,7 @@ public class RegistrationService {
 	@Autowired
 	private Validator validator;
 	
-	@Autowired
-	private OTPVerificationService otpVerificationService;
+	
 	
 	// Isolated Business Validation Method
     private void validateForm1(RegistrationForm1Request request) {
@@ -328,6 +327,8 @@ public class RegistrationService {
         userFileRepository.saveAll(userFiles);
         
         //Delete draft from redis
+        
+        
 	    
 	}
 	
