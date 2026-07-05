@@ -1,6 +1,5 @@
 //This repository will be resoponsible for save,create,read,update, delete user data in DB
 
-
 package com.afrobad.VeinLinker.registrationandlogin.users.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +21,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     //	SELECT * FROM users WHERE phone = ? LIMIT 1
 	boolean existsByPhone(String phone);
 	
-	
 	// For fetching Users by email
     Optional<Users> findByEmail(String email);
 
@@ -32,19 +30,17 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     // For Flexible Login (Allows user to type either their email OR phone number)
     Optional<Users> findByEmailOrPhone(String email, String phone);
     
-    
-    
- 
-    
-
 }
 
-// -------------------------------------------------------------------------
+
+//   
+//// -----------------------------------------------------------------------
 //// REGISTRATION CHECKS — FR-01 REQ-4
 //// Used in Service layer BEFORE saving a new user to check uniqueness.
 //// Spring Data auto-generates the SQL from the method name.
-//// -------------------------------------------------------------------------
+//// -----------------------------------------------------------------------
 //
+
 
 //
 //// -------------------------------------------------------------------------
@@ -55,7 +51,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 //// -------------------------------------------------------------------------
 //
 
-//
+
+
 //// Used for JWT token validation and inter-service references
 //Optional<Users> findByEncryptedUserId(String encryptedUserId);
 //
