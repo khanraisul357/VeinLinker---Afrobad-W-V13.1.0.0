@@ -13,8 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraft;
 import com.afrobad.VeinLinker.registrationandlogin.users.dto.*;
 // handles business logic (multi-step registration flow)
-
+import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 import com.afrobad.VeinLinker.registrationandlogin.users.service.RegistrationService;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.dto.*;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationType;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.service.OTPVerificationService;
 
 import jakarta.validation.*;
 
@@ -24,7 +27,11 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService multiStepServices;
 	
+	@Autowired
+	private OTPVerificationService otpVerificationService;
 	
+	@Autowired
+	private Users user;
 	
 	@PostMapping("/register/form-1")
 	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){			
@@ -73,8 +80,28 @@ public class RegistrationController {
 	public ResponseEntity<String> submitFormRequest(@RequestBody RegistrationFormSubmitRequest request){
 		
 		multiStepServices.submitRegistrationForm(request.getEmail());
+		otpVerificationService.startVerification(user);
+		
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
+	}
+	
+	//Controller method to verify email
+	@PostMapping("/verify/email")
+	public ResponseEntity<String> verifyEmail(@RequestBody EmailVerificationRequestDTO request){
+		
+		otpVerificationService.verifyOTP(request.getEmail(),request.getOtp(),VerificationType.EMAIL);
+		
+		return ResponseEntity.status(HttpStatus.OK).body( "Email Verified");
+	}
+	
+	//Controller method to verify phone number
+	@PostMapping("/verify/number")
+	public ResponseEntity<String> verifyPhoneNumber(@RequestBody PhoneNumberVerificationRequestDTO request){
+		
+		otpVerificationService.verifyOTP(request.getPhone(),request.getOtp(),VerificationType.NUMBER);
+		
+		return ResponseEntity.status(HttpStatus.OK).body( "Phone Number Verified");
 	}
 		
 	
