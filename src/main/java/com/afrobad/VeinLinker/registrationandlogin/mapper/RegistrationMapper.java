@@ -1,6 +1,5 @@
 package com.afrobad.VeinLinker.registrationandlogin.mapper;
 
-
 import java.util.UUID;
 
 import org.mapstruct.BeanMapping;
@@ -19,12 +18,13 @@ import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import lombok.*;
 
-/*componentModel = "spring" allows to create object of this mapper and store it to IOC Container & inject it.
-Simply I am telling spring to manage lifecycle of object of this mapper.
-
+/*
+*componentModel = "spring" allows to create object of this mapper and store it to IOC Container & inject it.
+*Simply I am telling spring to manage lifecycle of object of this mapper.
 *unmappedTargetPolicy = ReportingPolicy.IGNORE tells MapStruct to tell compiler ignore unmatched fields. So that
-* compiler don't show any compilation warnings for each unmapped fields.
+*compiler don't show any compilation warnings for each unmapped fields.
 */
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RegistrationMapper {
 
@@ -34,7 +34,7 @@ public interface RegistrationMapper {
     //Form 2Updates the EXISTNG draft loaded from Redis. It does NOT touch Form 1 data.
     void updateDraftWithForm2(RegistrationForm2Request request, @MappingTarget RegistrationDraft draft);
 
-      // Form 3: Updates the EXISTING draft loaded from Redis with Form 3 data before final DB push.
+    // Form 3: Updates the EXISTING draft loaded from Redis with Form 3 data before final DB push.
     default UploadedFileDraft MultipartFileToUploadedDocumentDraft(MultipartFile file, FileType fileType, Format format) {
     	
     	return UploadedFileDraft.builder()
@@ -70,7 +70,6 @@ public interface RegistrationMapper {
     // RegistrationDraft To Files
     // ======================================================
     
-    //
     Files draftToFiles(UploadedFileDraft fileDraft);
 
     
