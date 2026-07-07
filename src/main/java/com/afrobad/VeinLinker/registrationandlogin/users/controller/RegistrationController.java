@@ -80,10 +80,13 @@ public class RegistrationController {
 	public ResponseEntity<String> submitFormRequest(@RequestBody RegistrationFormSubmitRequest request){
 		
 		multiStepServices.submitRegistrationForm(request.getEmail());
-		otpVerificationService.startVerification(user);
-		
-		
 		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
+	}
+	
+	@PostMapping("/user/verification")
+	public ResponseEntity<String> sendOTP(){
+		otpVerificationService.startVerification(user);
+		return ResponseEntity.status(HttpStatus.CREATED).body("OTP Sent to Email & Phone Number");
 	}
 	
 	//Controller method to verify email
