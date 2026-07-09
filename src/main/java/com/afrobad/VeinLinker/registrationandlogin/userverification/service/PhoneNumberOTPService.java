@@ -5,7 +5,7 @@ package com.afrobad.VeinLinker.registrationandlogin.userverification.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PhoneOTPService {
+public class PhoneNumberOTPService {
 	
 	public String sendOTP(String Email,String emailOTP){
 		return emailOTP;
