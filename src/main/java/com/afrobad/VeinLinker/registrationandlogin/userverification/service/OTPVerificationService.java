@@ -29,7 +29,7 @@ public class OTPVerificationService {
 	private EmailOTPService emailOTPService;
 	
 	@Autowired
-	private PhoneOTPService phoneOTPService;
+	private PhoneNumberOTPService phoneOTPService;
 	
 	@Autowired
 	private UsersRepository usersRepository;
@@ -71,16 +71,13 @@ public class OTPVerificationService {
 	    emailOTPService.sendOTP(user.getEmail(), emailOTP);
 	    phoneOTPService.sendOTP(user.getPhone(), phoneOTP);
 	    
-	    //----------------------------------------------------------------------------------
-	    //Verify OTP: This below Part used to verify OTP--> whether otp submitted by users match with otp stored in redis
-	    //----------------------------------------------------------------------------------
-	    
-	    
-	    
 	    
 	}
 	
 	
+	//----------------------------------------------------------------------------------
+    //Verify OTP: This below Part used to verify OTP--> whether otp submitted by users match with otp stored in redis
+    //----------------------------------------------------------------------------------
 	@Transactional
 	public void verifyOTP(String identifier,String submittedOTP,VerificationType verificationType) {
 
