@@ -17,7 +17,7 @@ public class RegistrationCacheService {
 
 	//Injecting object of RedisTemplate 
     @Autowired 
-    private RedisTemplate<String, RegistrationDraft> redisTemplate;
+    private RedisTemplate<String, RegistrationDraft> redisTemplateForRegistration;
 
     // Use a unified namespace prefix to keep keys separated inside Redis
     private static final String REDIS_PREFIX = "RegistrationDraftCache:"; //prefix of redis key, like "RegistrationDraftCache: 1"
@@ -34,7 +34,7 @@ public class RegistrationCacheService {
         String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
         
         
-        redisTemplate.opsForValue().set(cacheKey, draft, CACHE_TIMEOUT_MINUTES);
+        redisTemplateForRegistration.opsForValue().set(cacheKey, draft, CACHE_TIMEOUT_MINUTES);
     }
 
     /**
@@ -42,14 +42,14 @@ public class RegistrationCacheService {
      */
     public RegistrationDraft getDraft(String email) {
         String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
-        return (RegistrationDraft) redisTemplate.opsForValue().get(cacheKey);
+        return (RegistrationDraft) redisTemplateForRegistration.opsForValue().get(cacheKey);
     }
-//
-//    /**
-//     * Clears out the Redis cache once Form 3 is successfully saved to MySQL.
-//     */
-//    public void deleteDraft(String email) {
-//        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
-//        redisTemplate.delete(cacheKey);
-//    }
+
+    /**
+     * Clears out the Redis cache once Form 3 & users entity is successfully saved to MySQL.
+     */
+    public void deleteDraft(String email) {
+        String cacheKey = REDIS_PREFIX + email.toLowerCase().trim();
+        redisTemplateForRegistration.delete(cacheKey);
+    }
 }
