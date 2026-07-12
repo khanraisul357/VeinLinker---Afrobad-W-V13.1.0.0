@@ -53,7 +53,7 @@ public class Users{
     // Never auto-incremented by MySQL — your Service builds this string
     // after save so it can use the internalUserId number inside it.
     // -------------------------------------------------------------------------
-    @Column(name = "public_userID", nullable = false, unique = true, length = 15)
+    @Column(name = "public_userID", nullable = true, unique = true, length = 15)
     private String publicUserId;
 
     // =========================================================================
