@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.afrobad.VeinLinker.registrationandlogin.cache.service.OTPCacheService;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.dto.OTPSendedResponseDTO;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.entity.OTPVerification;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationType;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.repository.OTPVerificationRepository;
@@ -34,7 +35,11 @@ public class OTPVerificationService {
 	@Autowired
 	private UsersRepository usersRepository;
 	
-	public void startVerification(Users user) {
+	public OTPSendedResponseDTO startVerification(String userId) {
+		
+		//Fetching object of user entity stored in MySQL through reference of userID passed in request.
+		Users user = usersRepository.findByPublicUserId(userId)
+	            .orElseThrow(() -> new RuntimeException("User not found"));
 
 	    // Generate OTPs
 	    String emailOTP = otpGenerator.generateOTP();
@@ -54,23 +59,38 @@ public class OTPVerificationService {
 	     //This below Part used to create & store OTPVerification entity inside MySQL instead of redis
 	     //----------------------------------------------------------------------------------
 	    
-	    // Create OTPVerification entity
-	    OTPVerification otpVerification = OTPVerification.builder()
-	            .user(user)
-	            .isEmailVerified(false)
-	            .isNumberVerified(false)
-	            .expiresAt(LocalDateTime.now().plusMinutes(5))
-	            .build();
-	    
-	    // Save OTPVerification entity
-	    otpVerificationRepository.save(otpVerification);
+	    // Create OTPVerification entity only for the first time when it is empty for the passed publicuserId.
+	    OTPVerification otpVerification = otpVerificationRepository
+	            .findByUser(user)
+	            .orElse(null);
 
+	    if (otpVerification == null) {
+
+	        otpVerification = OTPVerification.builder()
+	                .user(user)
+	                .isEmailVerified(false)
+	                .isNumberVerified(false)
+	                .expiresAt(LocalDateTime.now().plusMinutes(5))
+	                .build();
+
+	        otpVerificationRepository.save(otpVerification);
+	    }
+	    
 	    //----------------------------------------------------------------------------------
 	    //This below Part used to Send OTP to Email & SMS(number) of users
 	    //----------------------------------------------------------------------------------
 	    emailOTPService.sendOTP(user.getEmail(), emailOTP);
 	    phoneOTPService.sendOTP(user.getPhone(), phoneOTP);
 	    
+	    //creating OTPSendedResponseDTO object
+	    OTPSendedResponseDTO OTPSendedResponse=OTPSendedResponseDTO.builder()
+	    		.emailOTP(emailOTP)
+	    		.phoneNumberOTP(phoneOTP)
+	    		.message("OTP Sent to Email & Phone Number")
+	    		.build();
+	    
+	    //return the object of response DTO
+	    return OTPSendedResponse;
 	    
 	}
 	
