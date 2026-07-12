@@ -23,7 +23,7 @@ import com.afrobad.VeinLinker.registrationandlogin.cache.drafts.RegistrationDraf
 public class RegistrationRedisConfig {
 	
 	   /*Object returned by this method should be managed by Spring. Meaning object will be stored in IOC Container.
-	    * 
+	    *
 	    *RedisConnectionFactory is the component that creates and manages connections between Spring application
 	    and the Redis server. 
 	    Based on redis properties in application.properties, spring manages object of RedisConnectionFactory
@@ -76,6 +76,10 @@ public class RegistrationRedisConfig {
 	        
 
 	        return redisTemplate;
+	        
+	        
+	        
 	    }
-
+	   
+	   
 }
