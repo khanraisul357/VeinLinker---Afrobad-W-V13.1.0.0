@@ -30,8 +30,8 @@ public class RegistrationController {
 	@Autowired
 	private OTPVerificationService otpVerificationService;
 	
-	@Autowired
-	private Users user;
+	private Users user=new Users();
+	
 	
 	@PostMapping("/register/form-1")
 	public ResponseEntity<RegistrationForm1Response> form1Request(@Valid @RequestBody RegistrationForm1Request request){			
@@ -83,10 +83,10 @@ public class RegistrationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
 	}
 	
-	@PostMapping("/user/verification")
-	public ResponseEntity<String> sendOTP(){
-		otpVerificationService.startVerification(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body("OTP Sent to Email & Phone Number");
+	@PostMapping("/user/{userId}/verification")
+	public ResponseEntity<OTPSendedResponseDTO> sendOTP(@PathVariable String userId){
+		OTPSendedResponseDTO response=otpVerificationService.startVerification(userId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
 	//Controller method to verify email
