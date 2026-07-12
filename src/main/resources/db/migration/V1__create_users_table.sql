@@ -1,7 +1,7 @@
 CREATE TABLE users (
     internal_userID BIGINT PRIMARY KEY AUTO_INCREMENT,
     encrypted_userID CHAR(36) NOT NULL UNIQUE,
-    public_userID VARCHAR(15) NOT NULL UNIQUE,
+    public_userID VARCHAR(15) NULL UNIQUE,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255) NOT NULL UNIQUE,
