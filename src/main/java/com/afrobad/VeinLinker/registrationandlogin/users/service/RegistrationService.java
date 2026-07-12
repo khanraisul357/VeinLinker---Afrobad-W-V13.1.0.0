@@ -327,9 +327,8 @@ public class RegistrationService {
         userFileRepository.saveAll(userFiles);
         
         //Delete draft from redis
+        cacheService.deleteDraft(user.getEmail());
         
-        
-	    
 	}
 	
 	
