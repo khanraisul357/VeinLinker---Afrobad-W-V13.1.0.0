@@ -30,6 +30,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     // For Flexible Login (Allows user to type either their email OR phone number)
     Optional<Users> findByEmailOrPhone(String email, String phone);
     
+    Optional<Users> findByPublicUserId(String publicUserId);
+    
 }
 
 
