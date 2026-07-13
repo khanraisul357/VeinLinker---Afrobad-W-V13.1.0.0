@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.afrobad.VeinLinker.registrationandlogin.cache.service.OTPCacheService;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.UserStatus;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.dto.OTPSendedResponseDTO;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.entity.OTPVerification;
@@ -82,10 +83,16 @@ public class OTPVerificationService {
 	    emailOTPService.sendOTP(user.getEmail(), emailOTP);
 	    phoneOTPService.sendOTP(user.getPhone(), phoneOTP);
 	    
+	    Long timeLeft = otpCacheService.getTimeLeft(user.getEmail());
+	   
+	    
+	    
+	    
 	    //creating OTPSendedResponseDTO object
 	    OTPSendedResponseDTO OTPSendedResponse=OTPSendedResponseDTO.builder()
 	    		.emailOTP(emailOTP)
 	    		.phoneNumberOTP(phoneOTP)
+	    		.expiresInSeconds(timeLeft)
 	    		.message("OTP Sent to Email & Phone Number")
 	    		.build();
 	    
@@ -165,8 +172,14 @@ public class OTPVerificationService {
 	        otpCacheService.deletePhoneOTP(identifier);
 	    }
 	    
-        //Save updated OTPVerfication Record
-	    otpVerificationRepository.save(otpVerificationEntity);
+	        
+     /*Save updated OTPVerfication Record(this line is automatically implemented by hibernate no neen to write it)
+      * otpVerificationRepository.save(otpVerificationEntity);
+      * 
+	 */   
+	    
+	} 
+	    
 	}
+	
 
-}
