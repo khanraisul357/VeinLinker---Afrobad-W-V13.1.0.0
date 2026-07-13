@@ -1,7 +1,7 @@
 package com.afrobad.VeinLinker.registrationandlogin.userverification.enums;
 
-public enum DocumentVerificationStatus {
+public enum VerificationDocumentStatus {
     PENDING,
-    APPROVED,
+    VERIFIED,
     REJECTED
 }
