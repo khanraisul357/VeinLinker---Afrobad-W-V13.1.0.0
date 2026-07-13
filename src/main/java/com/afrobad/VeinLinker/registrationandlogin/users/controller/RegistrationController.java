@@ -99,7 +99,7 @@ public class RegistrationController {
 	}
 	
 	//Controller method to verify phone number
-	@PostMapping("/verify/number")
+	@PostMapping("/verify/phonenumber")
 	public ResponseEntity<String> verifyPhoneNumber(@RequestBody PhoneNumberVerificationRequestDTO request){
 		
 		otpVerificationService.verifyOTP(request.getPhone(),request.getOtp(),VerificationType.NUMBER);
