@@ -1,6 +1,7 @@
 package com.afrobad.VeinLinker.registrationandlogin.cache.service;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import org.mapstruct.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class OTPCacheService {
 	    @Autowired
 	    private StringRedisTemplate redisTemplateForOTP;
 	    
-	    private static final Duration OTP_EXPIRATION_MINUTES = Duration.ofMinutes(2);;//2 Minutes
+	    private static final Duration OTP_EXPIRATION_MINUTES = Duration.ofMinutes(5);;//2 Minutes
 
 
 	    public void saveEmailOTP(String email, String otp) {
@@ -41,6 +42,17 @@ public class OTPCacheService {
 
 	    public void deletePhoneOTP(String phone) {
 	        redisTemplateForOTP.delete("PHONE_OTP:" + phone);
+	    }
+
+	    
+	    //Methods to generate time left of otp expiration(can use email or phone any of them)
+	    public Long getTimeLeft(String email) {
+	        Long ttl= redisTemplateForOTP.getExpire(
+	                "EMAIL_OTP:" + email,
+	                TimeUnit.SECONDS
+	        );
+	        
+	        return ttl != null && ttl > 0 ? ttl : 0L;//This prevents returning -1 or -2 to the client.
 	    }
 
 }
