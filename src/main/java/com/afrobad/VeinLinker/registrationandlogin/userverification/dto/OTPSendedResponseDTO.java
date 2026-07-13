@@ -8,6 +8,7 @@ public class OTPSendedResponseDTO {
 	
 	String emailOTP;
 	String phoneNumberOTP;
+	Long expiresInSeconds;
 	String message;
 
 }
