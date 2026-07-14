@@ -29,7 +29,7 @@ public class UserDocumentVerification {
     // One User can go through multiple Document Verification cycles (e.g: if first one gets rejected)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "internal_userID", nullable = false)
-    private Users userId; 
+    private Users user; 
     
     // The admin account that processed the request
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,7 +47,8 @@ public class UserDocumentVerification {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private DocumentVerificationStatus status;
+    @Builder.Default
+    private VerificationDocumentStatus status=VerificationDocumentStatus.REJECTED;
 
     @CreationTimestamp
     @Column(name = "reviewed_at", nullable = false, updatable = false)
