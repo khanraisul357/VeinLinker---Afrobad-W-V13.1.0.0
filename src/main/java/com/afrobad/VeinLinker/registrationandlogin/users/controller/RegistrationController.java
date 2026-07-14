@@ -15,9 +15,7 @@ import com.afrobad.VeinLinker.registrationandlogin.users.dto.*;
 // handles business logic (multi-step registration flow)
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 import com.afrobad.VeinLinker.registrationandlogin.users.service.RegistrationService;
-import com.afrobad.VeinLinker.registrationandlogin.userverification.dto.*;
-import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationType;
-import com.afrobad.VeinLinker.registrationandlogin.userverification.service.OTPVerificationService;
+
 
 import jakarta.validation.*;
 
@@ -27,8 +25,6 @@ public class RegistrationController {
 	@Autowired
 	private RegistrationService multiStepServices;
 	
-	@Autowired
-	private OTPVerificationService otpVerificationService;
 	
 	private Users user=new Users();
 	
@@ -83,30 +79,7 @@ public class RegistrationController {
 		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
 	}
 	
-	@PostMapping("/user/{userId}/verification")
-	public ResponseEntity<OTPSendedResponseDTO> sendOTP(@PathVariable String userId){
-		OTPSendedResponseDTO response=otpVerificationService.startVerification(userId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
-	
-	//Controller method to verify email
-	@PostMapping("/verify/email")
-	public ResponseEntity<String> verifyEmail(@RequestBody EmailVerificationRequestDTO request){
-		
-		otpVerificationService.verifyOTP(request.getEmail(),request.getOtp(),VerificationType.EMAIL);
-		
-		return ResponseEntity.status(HttpStatus.OK).body( "Email Verified");
-	}
-	
-	//Controller method to verify phone number
-	@PostMapping("/verify/phonenumber")
-	public ResponseEntity<String> verifyPhoneNumber(@RequestBody PhoneNumberVerificationRequestDTO request){
-		
-		otpVerificationService.verifyOTP(request.getPhone(),request.getOtp(),VerificationType.NUMBER);
-		
-		return ResponseEntity.status(HttpStatus.OK).body( "Phone Number Verified");
-	}
-		
+
 	
 
 }
