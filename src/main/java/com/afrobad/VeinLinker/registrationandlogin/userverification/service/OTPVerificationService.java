@@ -36,6 +36,9 @@ public class OTPVerificationService {
 	@Autowired
 	private UsersRepository usersRepository;
 	
+	@Autowired
+	private UserVerificationService userVerificationService;
+	
 	public OTPSendedResponseDTO startVerification(String userId) {
 		
 		//Fetching object of user entity stored in MySQL through reference of userID passed in request.
@@ -83,7 +86,9 @@ public class OTPVerificationService {
 	    emailOTPService.sendOTP(user.getEmail(), emailOTP);
 	    phoneOTPService.sendOTP(user.getPhone(), phoneOTP);
 	    
-	    Long timeLeft = otpCacheService.getTimeLeft(user.getEmail());
+	    
+	    Long timeLeftForEmailOTP = otpCacheService.getTimeLeftForEmailOTP(user.getEmail());
+	    Long timeLeftForPhoneNumberOTP = otpCacheService.getTimeLeftForEmailOTP(user.getEmail());
 	   
 	    
 	    
@@ -92,7 +97,8 @@ public class OTPVerificationService {
 	    OTPSendedResponseDTO OTPSendedResponse=OTPSendedResponseDTO.builder()
 	    		.emailOTP(emailOTP)
 	    		.phoneNumberOTP(phoneOTP)
-	    		.expiresInSeconds(timeLeft)
+	    		.emailOTPexpiresInSeconds(timeLeftForEmailOTP)
+	    		.phoneNumberOTPExpiresInSeconds(timeLeftForPhoneNumberOTP)
 	    		.message("OTP Sent to Email & Phone Number")
 	    		.build();
 	    
@@ -106,7 +112,7 @@ public class OTPVerificationService {
     //Verify OTP: This below Part used to verify OTP--> whether otp submitted by users match with otp stored in redis
     //----------------------------------------------------------------------------------
 	@Transactional
-	public void verifyOTP(String identifier,String submittedOTP,VerificationType verificationType) {
+	public String verifyOTP(String identifier,String submittedOTP,VerificationType verificationType) {
 
 	    Users user;
 	    String storedOTP;
@@ -150,7 +156,7 @@ public class OTPVerificationService {
 	    
 
 	    // -------------------------------------------------------------------------
-	    // Fetch OTP verification record
+	    // OTP Valid--> Proceeds to Fetch OTP verification record
 	    // -------------------------------------------------------------------------
 
 	    OTPVerification otpVerificationEntity = otpVerificationRepository.findByUser(user)
@@ -178,8 +184,10 @@ public class OTPVerificationService {
       * 
 	 */   
 	    
-	} 
+	    String statusMessage=userVerificationService.verifyUser(user);
 	    
-	}
+	    return statusMessage;
+	} 
 	
-
+		
+}
