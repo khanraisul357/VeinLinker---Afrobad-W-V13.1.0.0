@@ -28,8 +28,6 @@ public class UserVerificationController {
 	@Autowired
 	private UserDocumentVerificationService userDocumentVerificationService;
 	
-	@Autowired
-	private UserVerificationService userVerificationService;
 	
 	@PostMapping("/user/{userId}/verification")
 	public ResponseEntity<OTPSendedResponseDTO> sendOTP(@PathVariable String userId){
