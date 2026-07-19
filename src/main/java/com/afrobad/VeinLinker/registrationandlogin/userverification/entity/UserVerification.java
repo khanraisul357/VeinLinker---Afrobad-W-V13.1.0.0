@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
-import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.DocumentVerificationStatus;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationDocumentStatus;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationStage;
 
 
@@ -29,7 +29,7 @@ public class UserVerification {
     //One User go through one Verification
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "internal_userID", nullable = false)
-    private Users userId;
+    private Users user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "stage", nullable = false,
@@ -46,7 +46,8 @@ public class UserVerification {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "document_status", nullable = false)
-    private DocumentVerificationStatus documentStatus;
+    @Builder.Default
+    private VerificationDocumentStatus documentStatus=VerificationDocumentStatus.PENDING;
 
     @CreationTimestamp
     @Column(name = "verified_at", nullable = false, updatable = false)
