@@ -6,7 +6,9 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.*;
+import com.afrobad.VeinLinker.admin.entity.Admin;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.UserFile;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.VerificationDocumentType;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
 import jakarta.persistence.*;
@@ -33,12 +35,12 @@ public class UserDocumentVerification {
     
     // The admin account that processed the request
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", referencedColumnName = "internal_userID")
-    private Users reviewedBy;
+    @JoinColumn(name = "admin_id")
+    private Admin reviewedBy;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "document_type", nullable = false)
-    private DocumentType documentType;
+    private VerificationDocumentType verificationDocumentType;
 
     // One verification request links to multiple files (e.g., NID Front and NID Back)
     // 'mappedBy' points to the field name inside the UserFile class that handles this relationship
@@ -48,7 +50,7 @@ public class UserDocumentVerification {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     @Builder.Default
-    private VerificationDocumentStatus status=VerificationDocumentStatus.REJECTED;
+    private VerificationDocumentStatus documentVerificationStatus=VerificationDocumentStatus.PENDING;
 
     @CreationTimestamp
     @Column(name = "reviewed_at", nullable = false, updatable = false)
