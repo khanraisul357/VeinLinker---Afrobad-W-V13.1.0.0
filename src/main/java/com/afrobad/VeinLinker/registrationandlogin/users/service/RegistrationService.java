@@ -30,6 +30,9 @@ import com.afrobad.VeinLinker.registrationandlogin.users.enums.AccountStatus;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.Role;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.UserStatus;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.entity.UserDocumentVerification;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.VerificationDocumentStatus;
+import com.afrobad.VeinLinker.registrationandlogin.userverification.repository.UserDocumentVerificationRepository;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.service.OTPVerificationService;
 
 import jakarta.transaction.Transactional;
@@ -63,6 +66,9 @@ public class RegistrationService {
 	
 	@Autowired
 	private Validator validator;
+	
+	@Autowired
+	private UserDocumentVerificationRepository userDocumentVerificationRepository;
 	
 	
 	
@@ -197,12 +203,17 @@ public class RegistrationService {
 	    existingDraft.getUploadedDocuments().add(backDraft); 
 	    existingDraft.getUploadedDocuments().add(profileDraft);
 	    
+	    //Update the verificationDocumentType in registrationDraft
+	    existingDraft.setVerificationDocumentType(request.getVerificationDocumentType());
+	    
 	    //Update the step counter metadata manually
 	    existingDraft.setCurrentStep(3);
 	    existingDraft.setUpdatedAt(java.time.LocalDateTime.now());
 	    
+	    
 	    //Save the updated combined draft back to Redis
 	    cacheService.saveDraft(request.getEmail(), existingDraft);
+	    
 		
 	    return existingDraft;
 	    
@@ -298,7 +309,6 @@ public class RegistrationService {
 	    
 	    
 	    //Step-4:Converting List of UploadedFileDraft to List of Files & Creating Files Object
-	    
 	    List<Files> files =draft.getUploadedDocuments().stream().map(mapper::draftToFiles).toList();
 	  
 	    //Step-5: Saving list of Files to DB
@@ -317,7 +327,7 @@ public class RegistrationService {
         	         .user(user)
         	         .file(file)
         	         .documentType(fileDraft.getDocumentType())
-        	         .status(UploadStatus.PENDING)
+        	         .uploadStatus(UploadStatus.UPLOADED)
         	         .build();
         	            
           userFiles.add(userFile);
@@ -326,6 +336,17 @@ public class RegistrationService {
         //Step-8: Saving list of UserFile to DB
         userFileRepository.saveAll(userFiles);
         
+        //Creating & updating UserDocumentVerification entity
+        UserDocumentVerification verification = UserDocumentVerification.builder()
+                .user(user)
+                .verificationDocumentType(draft.getVerificationDocumentType())
+                .documentVerificationStatus(VerificationDocumentStatus.PENDING)
+                .build();
+
+        userDocumentVerificationRepository.save(verification);
+
+        
+                
         //Delete draft from redis
         cacheService.deleteDraft(user.getEmail());
         

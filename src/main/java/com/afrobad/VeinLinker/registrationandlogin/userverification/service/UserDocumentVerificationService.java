@@ -55,13 +55,14 @@ public class UserDocumentVerificationService {
 		        .orElseThrow(() -> new RuntimeException("Admin not found with ID: " + adminId));
 		
 		//Updating(Document status PENDING to VERIFIED) UserDocumentVerification entity for particular user
-		userDocumentVerification=UserDocumentVerification.builder()
-		.verificationDocumentType(request.getVerificationDocumentType())
-		.files(userFiles)
-		.documentVerificationStatus(request.getDocumentVerificationStatus())
-		.reviewedBy(admin)//here adminId supposed to be set, will be updated after implementing admin panel.
-		.reviewedAt(LocalDateTime.now())	
-		.build();
+		userDocumentVerification.setVerificationDocumentType(
+		        request.getVerificationDocumentType());
+
+		userDocumentVerification.setDocumentVerificationStatus(
+		        request.getDocumentVerificationStatus());
+
+		userDocumentVerification.setReviewedBy(admin);
+		userDocumentVerification.setReviewedAt(LocalDateTime.now());
 		
 		
 		//save in MySQL
@@ -71,6 +72,8 @@ public class UserDocumentVerificationService {
 		String statusMessage=userVerificationService.verifyUser(user);
 		
 		return statusMessage;
+		
+		//Updating (uploadStatus.PENDING to uploadStatus.UPLOADED)
 		
 	}
 

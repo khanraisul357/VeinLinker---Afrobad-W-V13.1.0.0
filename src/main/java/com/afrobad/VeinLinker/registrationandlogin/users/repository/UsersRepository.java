@@ -32,7 +32,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     
     Optional<Users> findByPublicUserId(String publicUserId);
     
-    Optional<Users> findByUser(Users user);
     
 }
 

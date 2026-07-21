@@ -19,7 +19,7 @@ import com.afrobad.VeinLinker.registrationandlogin.userverification.service.OTPV
 import com.afrobad.VeinLinker.registrationandlogin.userverification.service.UserDocumentVerificationService;
 import com.afrobad.VeinLinker.registrationandlogin.userverification.service.UserVerificationService;
 
-@Controller
+@RestController
 public class UserVerificationController {
 	
 	@Autowired
@@ -40,7 +40,7 @@ public class UserVerificationController {
 	public ResponseEntity<String> verifyEmail(@RequestBody EmailVerificationRequestDTO request){
 		
 		String response=otpVerificationService.verifyOTP(request.getEmail(),request.getOtp(),VerificationType.EMAIL);		
-		return ResponseEntity.ok("Email is verified " + response);
+		return ResponseEntity.ok("Email is verified. " + response);
 	}
 	
 	//Controller method to verify phone number

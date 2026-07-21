@@ -26,7 +26,7 @@ public class UserVerificationService {
 	
 	public String verifyUser(Users user) {
 		
-		    
+		//Fetch     
 		OTPVerification otpVerification = otpVerificationRepository.findByUser(user)
 				.orElseThrow(() -> new IllegalArgumentException("OTPVeerification record not found for this user"));
 

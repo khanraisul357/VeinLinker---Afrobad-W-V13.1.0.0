@@ -21,7 +21,7 @@ public class RegistrationForm3Request {
 
 	
     @NotNull(message = "Document type is required")
-    private VerificationDocumentType documentType;
+    private VerificationDocumentType verificationDocumentType;
 
 }
 

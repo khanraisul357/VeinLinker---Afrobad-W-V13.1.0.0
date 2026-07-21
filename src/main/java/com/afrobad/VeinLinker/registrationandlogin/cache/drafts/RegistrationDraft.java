@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.afrobad.VeinLinker.registrationandlogin.cache.enums.*;
+import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.VerificationDocumentType;
 import com.afrobad.VeinLinker.registrationandlogin.users.enums.*;
 
 import jakarta.validation.Valid;
@@ -115,6 +116,9 @@ public class RegistrationDraft {
     // ==========================================================
     // FORM 3
     // ==========================================================
+    
+    @NotNull(message="Document type is required")
+    private VerificationDocumentType verificationDocumentType;
 
     /**
      * Uploaded documents associated with this draft.
