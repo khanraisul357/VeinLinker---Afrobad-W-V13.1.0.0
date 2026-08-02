@@ -5,6 +5,8 @@ package com.afrobad.VeinLinker.registrationandlogin.userauthentication.service;
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.dto.LoginRequestDTO;
@@ -17,6 +19,12 @@ public class AuthenticationService {
 	@Autowired
 	private UsersRepository userRepository;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JWTService jwtService;
+	
 	//method to identify the identifier is email or phone number
 	private boolean isEmail(String identifier) {
         return identifier.contains("@");
@@ -28,6 +36,7 @@ public class AuthenticationService {
 		
 		String identifier=request.getIdentifier();
 		
+		//verify email or phone number
 		if(isEmail(identifier)) {
 			user = userRepository.findByEmail(request.getIdentifier()) //fetching Users record through email
                     .orElseThrow(() -> new AccountNotFoundException("User not found"));
@@ -37,8 +46,14 @@ public class AuthenticationService {
         }
 		
 		
+		
 		// Verify password
+		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+		    throw new BadCredentialsException("Invalid credentials");
+		}
+		
         // Generate JWT
+		String token = jwtService.generateToken(user);
         // Return response
 		
 		}
