@@ -46,7 +46,6 @@ public class AuthenticationService {
         }
 		
 		
-		
 		// Verify password
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 		    throw new BadCredentialsException("Invalid credentials");
@@ -54,6 +53,7 @@ public class AuthenticationService {
 		
         // Generate JWT
 		String token = jwtService.generateToken(user);
+		
         // Return response
 		
 		}
