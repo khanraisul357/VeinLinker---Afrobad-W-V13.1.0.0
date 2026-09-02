@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.dto.LoginRequestDTO;
+import com.afrobad.VeinLinker.registrationandlogin.userauthentication.dto.LoginResponseDTO;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 import com.afrobad.VeinLinker.registrationandlogin.users.repository.UsersRepository;
 
@@ -30,7 +31,7 @@ public class AuthenticationService {
         return identifier.contains("@");
     }
 	
-	public void startLogin(LoginRequestDTO request) throws AccountNotFoundException {
+	public LoginResponseDTO startLogin(LoginRequestDTO request) throws AccountNotFoundException {
 		
 		Users user;
 		
@@ -52,10 +53,15 @@ public class AuthenticationService {
 		}
 		
         // Generate JWT
-		String token = jwtService.generateToken(user);
+		String token = jwtService.generateJWT(user);
 		
         // Return response
-		
+		LoginResponseDTO loginResponse= LoginResponseDTO.builder()
+				                        .message("Login Successful")
+				                        .jwt(token)
+				                        .build();
+				                        
+		return loginResponse;
 		}
 		
 	}
