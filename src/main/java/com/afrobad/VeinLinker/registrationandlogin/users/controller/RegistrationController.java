@@ -76,7 +76,7 @@ public class RegistrationController {
 	public ResponseEntity<String> submitFormRequest(@RequestBody RegistrationFormSubmitRequest request){
 		
 		multiStepServices.submitRegistrationForm(request.getEmail());
-		return ResponseEntity.status(HttpStatus.CREATED).body( "Registration completed successfully.");
+		return ResponseEntity.status(HttpStatus.CREATED).body("Registration completed successfully.");
 	}
 	
 
