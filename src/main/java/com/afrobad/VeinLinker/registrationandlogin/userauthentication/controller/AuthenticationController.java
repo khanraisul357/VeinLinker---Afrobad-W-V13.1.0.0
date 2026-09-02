@@ -5,6 +5,8 @@ package com.afrobad.VeinLinker.registrationandlogin.userauthentication.controlle
 import javax.security.auth.login.AccountNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +17,15 @@ import com.afrobad.VeinLinker.registrationandlogin.userauthentication.dto.*;
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.service.AuthenticationService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthenticationController {
 	
 	@Autowired
 	private AuthenticationService authenticationService;
 
 	@PostMapping("/login")
-	private EntityResponse<?> login(@RequestBody LoginRequestDTO request) throws AccountNotFoundException{
-		authenticationService.startLogin(request);
-		return null;
+	private ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) throws AccountNotFoundException{
+	    LoginResponseDTO response=authenticationService.startLogin(request);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
 	}
 }
