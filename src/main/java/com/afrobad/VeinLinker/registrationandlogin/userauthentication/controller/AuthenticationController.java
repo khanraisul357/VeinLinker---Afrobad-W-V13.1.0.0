@@ -17,7 +17,7 @@ import com.afrobad.VeinLinker.registrationandlogin.userauthentication.dto.*;
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.service.AuthenticationService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class AuthenticationController {
 	
 	@Autowired
