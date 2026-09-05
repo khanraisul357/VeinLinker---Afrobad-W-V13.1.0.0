@@ -14,6 +14,7 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.afrobad.VeinLinker.adminlogin.admin.entity.Admin;
 import com.afrobad.VeinLinker.config.securityconfig.JWTProperties;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
 
@@ -35,7 +36,7 @@ public class JWTService {
 
 
     // ============================================================
-    // 1. GENERATE JWT
+    // 1. GENERATE JWT FOR USER LOGIN
     // ============================================================
 
     /**
@@ -61,10 +62,34 @@ public class JWTService {
                 .signWith(getSignInKey())
                 .compact();
     }
+    
+    // ============================================================
+    // 2. GENERATE JWT FOR ADMIN LOGIN
+    // ============================================================
 
+    public String generateJWT(Admin admin) {
+
+        Map<String, Object> extraClaims = new HashMap<>();
+
+        extraClaims.put("adminId", admin.getId());
+        extraClaims.put("role", admin.getRole());
+
+        return Jwts.builder()
+                .claims(extraClaims)
+                .subject(admin.getEmail())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(
+                    new Date(
+                        System.currentTimeMillis()
+                        + jwtProperties.getExpiration()
+                    )
+                )
+                .signWith(getSignInKey())
+                .compact();
+    }
 
     // ============================================================
-    // 2. EXTRACT ANY CLAIM
+    // 3. EXTRACT ANY CLAIM
     // ============================================================
 
     /**
@@ -81,7 +106,7 @@ public class JWTService {
 
 
     // ============================================================
-    // 3. EXTRACT USERNAME / EMAIL
+    // 4. EXTRACT USERNAME / EMAIL
     // ============================================================
 
     /**
@@ -95,9 +120,17 @@ public class JWTService {
         );
     }
 
-
     // ============================================================
-    // 4. EXTRACT EXPIRATION
+    // 5. EXTRACT ROLE
+    // ============================================================
+
+    public String extractRole(String token) {
+
+        return extractClaim(token,claims -> claims.get("role", String.class));
+    }
+    
+    // ============================================================
+    // 6. EXTRACT EXPIRATION
     // ============================================================
 
     /**
@@ -113,7 +146,7 @@ public class JWTService {
 
 
     // ============================================================
-    // 5. CHECK WHETHER TOKEN IS EXPIRED
+    // 7. CHECK WHETHER TOKEN IS EXPIRED
     // ============================================================
 
     /**
@@ -127,13 +160,13 @@ public class JWTService {
 
 
     // ============================================================
-    // 6. CHECK WHETHER TOKEN IS VALID
+    // 8. CHECK WHETHER TOKEN IS VALID
     // ============================================================
 
     /**
      * Checks whether:
      *
-     * 1. Token belongs to the expected user
+     * 1. Token belongs to the expected user or admin
      * 2. Token has not expired
      * 3. Token signature is valid
      */
@@ -147,7 +180,7 @@ public class JWTService {
 
 
     // ============================================================
-    // 7. EXTRACT ALL CLAIMS
+    // 9. EXTRACT ALL CLAIMS
     // ============================================================
 
     /**
@@ -166,7 +199,7 @@ public class JWTService {
 
 
     // ============================================================
-    // 8. CREATE SECRET KEY
+    // 10. CREATE SECRET KEY
     // ============================================================
 
     /**
