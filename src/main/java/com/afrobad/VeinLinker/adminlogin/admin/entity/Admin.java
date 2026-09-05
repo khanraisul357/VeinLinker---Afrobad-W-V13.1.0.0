@@ -1,4 +1,4 @@
-package com.afrobad.VeinLinker.admin.entity;
+package com.afrobad.VeinLinker.adminlogin.admin.entity;
 
 import jakarta.persistence.Entity;
 
@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.afrobad.VeinLinker.registrationandlogin.users.enums.Role;
 
 import java.time.LocalDateTime;
 
@@ -34,9 +36,9 @@ public class Admin {
     @Column(nullable = false, length = 50)
     private String fullName;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false, length = 20)
-//    private AdminRole role; // e.g., SUPER_ADMIN, MODERATOR (Enum defined below)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role; // e.g., SUPER_ADMIN, MODERATOR (Enum defined below)
 
     @Column(nullable = false)
     private boolean isActive = true;
