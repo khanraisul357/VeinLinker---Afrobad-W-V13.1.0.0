@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.service.JWTService;
+import com.afrobad.VeinLinker.adminlogin.adminauthentication.service.CustomAdminDetailsService;
 import com.afrobad.VeinLinker.registrationandlogin.userauthentication.service.CustomUserDetailsService;
 
 import jakarta.servlet.FilterChain;
@@ -28,6 +29,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    private CustomAdminDetailsService customAdminDetailsService;
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain filterChain)
             throws ServletException, IOException {
@@ -45,21 +49,34 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         // 3. Extract JWT
         final String jwt = authHeader.substring(7);
 
-        // 4. Extract username/email from JWT
-        final String username = jwtService.extractUsername(jwt);
+        // 4. Extract username(email) from JWT
+        final String username =jwtService.extractUsername(jwt);
 
-        // 5. Continue only if username exists
-        // and user is not already authenticated
-        if (username != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        // 5. Extract role from JWT
+        final String role =jwtService.extractRole(jwt);
 
-            // 6. Load user from database
-            UserDetails userDetails =customUserDetailsService.loadUserByUsername(username);
+        // 6. Continue only if username exists and user or admin is not already authenticated
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+              
+           // 7. Load user or admin from database based on account type(USER or ROLE)        	
+           UserDetails userDetails;	
+           if ("ADMIN".equals(role)) {
 
-            // 7. Verify JWT
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+              // Admin → admins table
+        	  userDetails =customAdminDetailsService.loadUserByUsername(username);
 
-                // 8. Create Authentication object
+           } else {
+
+              // User → users table
+        	  userDetails =customUserDetailsService.loadUserByUsername(username);
+           }
+           
+           
+
+           // 8. Verify JWT
+           if (jwtService.isTokenValid(jwt, userDetails)) {
+
+                // 9. Create Authentication object
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
@@ -67,20 +84,17 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                                 userDetails.getAuthorities()
                         );
 
-                // 9. Attach request details
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request)
-                );
+                // 10. Attach request details
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // 10. Tell Spring Security user is authenticated
+                // 11. Tell Spring Security user is authenticated
                 SecurityContextHolder
                         .getContext()
                         .setAuthentication(authentication);
             }
         }
 
-        // 11. Continue request
+        // 12. Continue request
         filterChain.doFilter(request, response);
     }
 }
