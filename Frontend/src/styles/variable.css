@@ -1,0 +1,100 @@
+:root {
+    /* Primary */
+
+    --primary-50: #fef2f2;
+    --primary-100: #fee2e2;
+    --primary-200: #fecaca;
+    --primary-300: #fca5a5;
+    --primary-400: #f87171;
+    --primary-500: #ef4444;
+    --primary-600: #dc2626;
+    --primary-700: #b91c1c;
+    --primary-800: #991b1b;
+    --primary-900: #7f1d1d;
+
+    /* Donor */
+
+    --donor-color: #dc2626;
+    --donor-bg: rgba(220, 38, 38, 0.1);
+
+    /* Receiver */
+
+    --receiver-color: #2563eb;
+    --receiver-bg: rgba(37, 99, 235, 0.1);
+
+    /* Dark */
+
+    --dark-900: #0f0f14;
+    --dark-800: #16161d;
+    --dark-700: #1e1e28;
+    --dark-600: #2a2a38;
+    --dark-500: #3a3a4e;
+    --dark-400: #52526e;
+    --dark-300: #7a7a9e;
+    --dark-200: #a0a0be;
+    --dark-100: #c8c8de;
+    --dark-50: #e8e8f0;
+
+    /* Text */
+
+    --white: #ffffff;
+
+    --text-primary: #f0f0f5;
+    --text-secondary: #a0a0be;
+    --text-muted: #7a7a9e;
+
+    /* Functional */
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+
+    /* Glass */
+
+    --glass-bg: rgba(30, 30, 40, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    /* Spacing */
+
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Radius */
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 50%;
+
+    /* Typography */
+
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --font-xs: 0.75rem;
+    --font-sm: 0.875rem;
+    --font-md: 1rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.25rem;
+    --font-2xl: 1.5rem;
+    --font-3xl: 2rem;
+    --font-4xl: 2.5rem;
+    --font-5xl: 3.5rem;
+
+    /* Transitions */
+
+    --transition-fast: 150ms ease;
+    --transition-base: 250ms ease;
+    --transition-slow: 400ms ease;
+
+    /* Navbar */
+
+    --navbar-height: 70px;
+}
