@@ -1,0 +1,60 @@
+/* ============================================================
+   CALL TO ACTION
+   ============================================================ */
+
+.cta-section {
+    text-align: center;
+}
+
+.cta-card {
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    padding: var(--space-3xl);
+}
+
+.cta-title {
+    font-size: var(--font-3xl);
+
+    font-weight: 800;
+
+    margin-bottom: var(--space-md);
+}
+
+.cta-description {
+    color: var(--text-secondary);
+
+    margin-bottom: var(--space-xl);
+
+    font-size: var(--font-lg);
+
+    line-height: 1.7;
+}
+
+.cta-actions {
+    display: flex;
+
+    gap: var(--space-md);
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+    .cta-card {
+        padding: var(--space-xl);
+    }
+
+    .cta-actions {
+        flex-direction: column;
+    }
+
+    .cta-actions .btn {
+        width: 100%;
+    }
+}
