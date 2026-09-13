@@ -1,0 +1,866 @@
+/* ============================================================
+   VEINLINKER — HERO SECTION
+   ============================================================ */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+    overflow: hidden;
+
+    padding-top: var(--navbar-height);
+
+    width: 100%;
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   BACKGROUND GLOW
+   ============================================================ */
+
+.hero::before {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 50%,
+            rgba(220, 38, 38, 0.15) 0%,
+            transparent 50%
+        ),
+
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(220, 38, 38, 0.08) 0%,
+            transparent 40%
+        ),
+
+        radial-gradient(
+            circle at 60% 80%,
+            rgba(185, 28, 28, 0.10) 0%,
+            transparent 40%
+        );
+
+    z-index: 0;
+}
+
+
+/* ============================================================
+   MAIN HERO LAYOUT
+   ============================================================ */
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+
+    /*
+       minmax(0, 1fr) prevents grid children
+       from forcing the page wider than the viewport.
+    */
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: var(--space-3xl);
+
+    align-items: center;
+
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* ============================================================
+   HERO TEXT
+   ============================================================ */
+
+.hero-text {
+    min-width: 0;
+}
+
+.hero-text h1 {
+    font-size: var(--font-5xl);
+
+    font-weight: 900;
+
+    line-height: 1.1;
+
+    margin-bottom: var(--space-lg);
+}
+
+.hero-text h1 .gradient-text {
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-400),
+            #ff6b6b,
+            var(--primary-600)
+        );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+}
+
+.hero-text p {
+    font-size: var(--font-lg);
+
+    color: var(--text-secondary);
+
+    margin-bottom: var(--space-xl);
+
+    max-width: 500px;
+
+    line-height: 1.8;
+}
+
+
+/* ============================================================
+   HERO BUTTONS
+   ============================================================ */
+
+.hero-actions {
+    display: flex;
+
+    gap: var(--space-md);
+
+    flex-wrap: wrap;
+}
+
+
+/* Find Donors */
+
+.hero-actions .btn-primary {
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-600),
+            var(--primary-700)
+        );
+
+    color: var(--white);
+
+    border: 1px solid transparent;
+
+    box-shadow:
+        0 4px 20px rgba(220, 38, 38, 0.30);
+}
+
+.hero-actions .btn-primary:hover {
+    color: var(--white);
+
+    box-shadow:
+        0 6px 30px rgba(220, 38, 38, 0.50);
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   BECOME A DONOR BUTTON
+   ============================================================ */
+
+.hero-actions .btn-outline {
+    background: transparent;
+
+    color: var(--primary-400);
+
+    border: 1px solid var(--primary-600);
+
+    border-radius: var(--radius-md);
+
+    box-shadow: none;
+}
+
+.hero-actions .btn-outline:hover {
+    background: rgba(220, 38, 38, 0.10);
+
+    color: var(--primary-300);
+
+    border-color: var(--primary-500);
+
+    box-shadow:
+        0 4px 20px rgba(220, 38, 38, 0.15);
+
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   HERO STATISTICS
+   ============================================================ */
+
+.hero-stats {
+    display: flex;
+
+    gap: var(--space-2xl);
+
+    margin-top: var(--space-2xl);
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.hero-stat .stat-number {
+    display: block;
+
+    font-size: var(--font-3xl);
+
+    font-weight: 800;
+
+    color: var(--primary-400);
+}
+
+.hero-stat .stat-label {
+    font-size: var(--font-sm);
+
+    color: var(--text-muted);
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* ============================================================
+   HERO VISUAL
+   ============================================================ */
+
+.hero-visual {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* ============================================================
+   QUICK SEARCH CARD
+   ============================================================ */
+
+.hero-card {
+    width: 100%;
+
+    max-width: 420px;
+
+    min-width: 0;
+
+    padding: var(--space-2xl);
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* Subtle red glow inside card */
+
+.hero-card::before {
+    content: '';
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    top: -100px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(220, 38, 38, 0.12),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   BLOOD DROP
+   ============================================================ */
+
+.hero-card .blood-drop {
+    position: relative;
+
+    z-index: 1;
+
+    font-size: 5rem;
+
+    margin-bottom: var(--space-lg);
+
+    animation:
+        pulse-glow 2s ease-in-out infinite;
+
+    filter:
+        drop-shadow(
+            0 0 30px rgba(220, 38, 38, 0.40)
+        );
+}
+
+
+/* ============================================================
+   BLOOD DROP ANIMATION
+   ============================================================ */
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        transform: scale(1);
+
+        filter:
+            drop-shadow(
+                0 0 20px rgba(220, 38, 38, 0.30)
+            );
+    }
+
+    50% {
+        transform: scale(1.05);
+
+        filter:
+            drop-shadow(
+                0 0 40px rgba(220, 38, 38, 0.60)
+            );
+    }
+}
+
+
+/* ============================================================
+   QUICK SEARCH HEADING
+   ============================================================ */
+
+.hero-card h3 {
+    position: relative;
+
+    z-index: 1;
+
+    margin-bottom: var(--space-sm);
+
+    font-size: var(--font-xl);
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   QUICK SEARCH DESCRIPTION
+   ============================================================ */
+
+.hero-card > p {
+    position: relative;
+
+    z-index: 1;
+
+    color: var(--text-muted);
+
+    font-size: var(--font-sm);
+
+    margin-bottom: var(--space-md);
+}
+
+
+/* ============================================================
+   MINI SEARCH CONTAINER
+   ============================================================ */
+
+.hero-search-mini {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+    min-width: 0;
+
+    background: var(--dark-700);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius-md);
+
+    padding: var(--space-md);
+
+    margin-top: var(--space-lg);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   SEARCH ROW
+   ============================================================ */
+
+.hero-search-mini .search-row {
+    display: flex;
+
+    gap: var(--space-sm);
+
+    align-items: center;
+
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* ============================================================
+   SEARCH SELECTS / INPUTS
+   ============================================================ */
+
+.hero-search-mini select,
+.hero-search-mini input {
+    flex: 1 1 0;
+
+    min-width: 0;
+    max-width: 100%;
+
+    padding: 10px 14px;
+
+    background: var(--dark-800);
+
+    border: 1px solid var(--glass-border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text-primary);
+
+    font-size: var(--font-sm);
+
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast);
+
+    box-sizing: border-box;
+}
+
+
+/* Hover */
+
+.hero-search-mini select:hover,
+.hero-search-mini input:hover {
+    border-color: var(--dark-400);
+}
+
+
+/* Focus */
+
+.hero-search-mini select:focus,
+.hero-search-mini input:focus {
+    outline: none;
+
+    border-color: var(--primary-500);
+
+    box-shadow:
+        0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+
+/* Select options */
+
+.hero-search-mini select option {
+    background: var(--dark-800);
+
+    color: var(--text-primary);
+}
+
+
+/* ============================================================
+   SEARCH BUTTON
+   ============================================================ */
+
+.hero-search-mini button {
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-md);
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+
+/* Search icon */
+
+.hero-search-mini button i {
+    font-size: var(--font-md);
+
+    color: var(--white);
+}
+
+
+/* Search button hover */
+
+.hero-search-mini button:hover {
+    transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1024px) {
+
+    .hero-content {
+        gap: var(--space-2xl);
+    }
+
+    .hero-text h1 {
+        font-size: var(--font-4xl);
+    }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .hero {
+        min-height: auto;
+
+        padding-top:
+            calc(
+                var(--navbar-height) + var(--space-xl)
+            );
+
+        padding-bottom: var(--space-2xl);
+
+        width: 100%;
+        max-width: 100%;
+    }
+
+
+    /* Main layout becomes one column */
+
+    .hero-content {
+        grid-template-columns: minmax(0, 1fr);
+
+        width: 100%;
+        min-width: 0;
+
+        text-align: center;
+
+        gap: var(--space-3xl);
+    }
+
+
+    /* Hero text */
+
+    .hero-text {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .hero-text p {
+        margin-left: auto;
+
+        margin-right: auto;
+
+        max-width: 500px;
+    }
+
+
+    /* Hero buttons */
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+
+    /* Statistics */
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+
+    /* Quick Search moves above hero text */
+
+    .hero-visual {
+        order: -1;
+
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    /* Quick Search card */
+
+    .hero-card {
+        width: 100%;
+
+        max-width: 420px;
+
+        min-width: 0;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        box-sizing: border-box;
+    }
+
+
+    /* Search container */
+
+    .hero-search-mini {
+        width: 100%;
+
+        min-width: 0;
+
+        box-sizing: border-box;
+    }
+
+
+    /* Search row */
+
+    .hero-search-mini .search-row {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+
+    /* Search controls */
+
+    .hero-search-mini select,
+    .hero-search-mini input {
+        min-width: 0;
+
+        max-width: 100%;
+    }
+}
+
+
+
+   /* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* ========================================================
+       HERO
+       ======================================================== */
+
+    .hero {
+        min-height: auto;
+
+        /*
+           Navbar is fixed, so only reserve its height.
+           Reduced extra spacing prevents a large gap below navbar.
+        */
+        padding-top: calc(var(--navbar-height) + var(--space-md));
+
+        padding-bottom: var(--space-xl);
+
+        width: 100%;
+        max-width: 100%;
+
+        box-sizing: border-box;
+    }
+
+
+    /* ========================================================
+       MAIN HERO LAYOUT
+       ======================================================== */
+
+    .hero-content {
+        grid-template-columns: minmax(0, 1fr);
+
+        width: 100%;
+        min-width: 0;
+
+        text-align: center;
+
+        /*
+           Reduced from 3xl.
+           This is important because visual + text are stacked.
+        */
+        gap: var(--space-xl);
+    }
+
+
+    /* ========================================================
+       HERO TEXT
+       ======================================================== */
+
+    .hero-text {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+
+        max-width: 500px;
+    }
+
+
+    /* ========================================================
+       HERO BUTTONS
+       ======================================================== */
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+
+    /* ========================================================
+       STATISTICS
+       ======================================================== */
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+
+    /* ========================================================
+       QUICK SEARCH
+       ======================================================== */
+
+    .hero-visual {
+        order: -1;
+
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    .hero-card {
+        width: 100%;
+
+        max-width: 420px;
+
+        min-width: 0;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        box-sizing: border-box;
+    }
+
+
+    /* ========================================================
+       SEARCH CONTAINER
+       ======================================================== */
+
+    .hero-search-mini {
+        width: 100%;
+
+        min-width: 0;
+
+        box-sizing: border-box;
+    }
+
+
+    /* ========================================================
+       SEARCH ROW
+       ======================================================== */
+
+    .hero-search-mini .search-row {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+
+    /* ========================================================
+       SEARCH CONTROLS
+       ======================================================== */
+
+    .hero-search-mini select,
+    .hero-search-mini input {
+        min-width: 0;
+
+        max-width: 100%;
+    }
+
+
+    /* ========================================================
+       HOW IT WORKS — MOBILE SPACING
+       ======================================================== */
+
+    .steps-grid {
+        gap: var(--space-lg);
+    }
+
+}
+
+
+
+    /* ========================================================
+       QUICK SEARCH — MOBILE STACK
+       ======================================================== */
+
+    .hero-search-mini .search-row {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        width: 100%;
+    }
+
+
+    .hero-search-mini select,
+    .hero-search-mini input {
+        width: 100%;
+
+        max-width: 100%;
+
+        flex: none;
+
+        box-sizing: border-box;
+    }
+
+
+    /* Search button */
+
+    .hero-search-mini button {
+        width: 100%;
+
+        height: 42px;
+
+        flex-shrink: 0;
+    }
+}
