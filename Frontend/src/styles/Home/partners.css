@@ -1,0 +1,190 @@
+/* ============================================================
+   PARTNERS
+   ============================================================ */
+
+.partners-section {
+    background: var(--dark-800);
+}
+
+
+/* ============================================================
+   PARTNERS GRID
+   ============================================================ */
+
+.partners-grid {
+    width: 100%;
+    
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: var(--space-xl);
+
+    align-items: stretch;
+}
+
+
+/* ============================================================
+   PARTNER CARD
+   ============================================================ */
+
+.partner-card {
+    width: 100%;
+
+    text-align: center;
+
+    padding: var(--space-xl);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* ============================================================
+   PARTNER ICON
+   ============================================================ */
+
+.partner-icon {
+    width: 60px;
+    height: 60px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary-600),
+        var(--primary-800)
+    );
+
+    border-radius: var(--radius-full);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto var(--space-lg);
+
+    color: var(--white);
+
+    font-size: var(--font-xl);
+
+    box-shadow:
+        0 0 30px rgba(220, 38, 38, 0.2);
+
+    flex-shrink: 0;
+}
+
+
+/* ============================================================
+   PARTNER TITLE
+   ============================================================ */
+
+.partner-card h3 {
+    font-size: var(--font-xl);
+
+    font-weight: 700;
+
+    margin-bottom: var(--space-sm);
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   PARTNER DESCRIPTION
+   ============================================================ */
+
+.partner-card p {
+    color: var(--text-secondary);
+
+    font-size: var(--font-sm);
+
+    line-height: 1.7;
+
+    text-align: center;
+
+    max-width: 520px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ============================================================
+   PARTNER TYPES
+   ============================================================ */
+
+.partner-types {
+    width: 100%;
+
+    max-width: 500px;
+
+    margin-top: var(--space-md);
+
+    color: var(--text-muted);
+
+    font-size: var(--font-sm);
+
+    line-height: 2;
+
+    text-align: center;
+}
+
+.partner-types div {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--space-xs);
+}
+
+.partner-types i {
+    width: 20px;
+
+    margin-right: var(--space-xs);
+
+    color: var(--primary-400);
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   PARTNERSHIP CTA
+   ============================================================ */
+
+.partners-cta {
+    text-align: center;
+
+    margin-top: var(--space-2xl);
+}
+
+.partners-cta p {
+    color: var(--text-muted);
+
+    margin-bottom: var(--space-md);
+}
+
+
+.partners-cta .btn-secondary:hover {
+    color: var(--primary-500);
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    .partners-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .partner-card {
+        padding: var(--space-xl) var(--space-lg);
+    }
+
+    .partner-types {
+        max-width: 100%;
+    }
+}

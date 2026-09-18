@@ -3,8 +3,8 @@ package com.afrobad.VeinLinker.registrationandlogin.userverification.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.afrobad.VeinLinker.admin.Repository.AdminRepository;
-import com.afrobad.VeinLinker.admin.entity.Admin;
+import com.afrobad.VeinLinker.adminlogin.admin.entity.Admin;
+import com.afrobad.VeinLinker.adminlogin.admin.repository.AdminRepository;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.UserFile;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.repository.UserFileRepository;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;
@@ -73,7 +73,6 @@ public class UserDocumentVerificationService {
 		
 		return statusMessage;
 		
-		//Updating (uploadStatus.PENDING to uploadStatus.UPLOADED)
 		
 	}
 

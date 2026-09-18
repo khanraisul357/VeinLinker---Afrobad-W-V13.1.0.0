@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.afrobad.VeinLinker.registrationandlogin.userverification.enums.*;
-import com.afrobad.VeinLinker.admin.entity.Admin;
+import com.afrobad.VeinLinker.adminlogin.admin.entity.Admin;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.entity.UserFile;
 import com.afrobad.VeinLinker.registrationandlogin.uploadedfile.enums.VerificationDocumentType;
 import com.afrobad.VeinLinker.registrationandlogin.users.entity.Users;

@@ -1,0 +1,75 @@
+/* ============================================================
+   HOW IT WORKS
+   ============================================================ */
+
+.steps-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: var(--space-xl);
+}
+
+.step-card {
+    text-align: center;
+
+    padding: var(--space-xl);
+
+    position: relative;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+
+    background: linear-gradient(
+        135deg,
+        var(--primary-600),
+        var(--primary-800)
+    );
+
+    border-radius: var(--radius-full);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: var(--font-xl);
+
+    font-weight: 800;
+
+    color: var(--white);
+
+    margin: 0 auto var(--space-lg);
+
+    box-shadow:
+        0 0 30px rgba(220, 38, 38, 0.2);
+}
+
+.step-card h3 {
+    font-size: var(--font-xl);
+
+    font-weight: 700;
+
+    margin-bottom: var(--space-sm);
+}
+
+.step-card p {
+    color: var(--text-secondary);
+
+    font-size: var(--font-sm);
+
+    line-height: 1.7;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+}
